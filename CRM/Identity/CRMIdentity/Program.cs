@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using CRMIdentity.Data;
+using CRMIdentity.Services.Profile;
 
 internal class Program
 {
@@ -54,10 +55,13 @@ internal class Program
                     // see https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/
                     options.EmitStaticAudienceClaim = true;
                 })
+                // тестовый x509-сертификат, IdentityServer использует RS256 для подписи JWT
+                .AddDeveloperSigningCredential()
                 .AddInMemoryIdentityResources(Config.IdentityResources)
                 .AddInMemoryApiScopes(Config.ApiScopes)
                 .AddInMemoryClients(Config.Clients)
-                .AddAspNetIdentity<CRMUser>();
+                .AddAspNetIdentity<CRMUser>()
+                .AddProfileService<CRMProfileService>();
 
             builder.Services.AddAuthentication()
                 .AddGoogle(options =>
