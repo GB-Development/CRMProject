@@ -1,10 +1,10 @@
 ﻿using CRMIdentity;
 using CRMIdentity.Data.Models;
-using CRMIdentity.Data;
 using Duende.IdentityServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using CRMIdentity.Data;
 
 internal class Program
 {
@@ -33,7 +33,7 @@ internal class Program
 
             #region Database
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+                options.UseNpgsql(builder.Configuration.GetConnectionString("IdentityUserDBConnection")));
 
             #endregion
 

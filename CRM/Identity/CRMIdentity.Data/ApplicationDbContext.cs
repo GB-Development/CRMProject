@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CRMIdentity.Data
 {
-
     public class ApplicationDbContext : IdentityDbContext<CRMUser>
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
