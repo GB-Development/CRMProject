@@ -8,7 +8,7 @@ namespace CRMJobs
         {
             var jobId = BackgroundJob.Schedule(
                 () => Console.WriteLine("Запуск отложенного задания!"),
-                TimeSpan.FromDays(7));
+                TimeSpan.FromHours(2));
         }
     }
 }
