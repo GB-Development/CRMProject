@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Serilog;
 using CRMIdentity.Data;
 using CRMIdentity.Services.Profile;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.AspNetCore.Hosting;
+using System.Reflection;
 
 internal class Program
 {
@@ -33,8 +36,12 @@ internal class Program
             builder.Services.AddRazorPages();
 
             #region Database
+
+            var migrationsAssembly = typeof(Program).GetTypeInfo().Assembly.GetName().Name;
+
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(builder.Configuration.GetConnectionString("IdentityUserDBConnection")));
+
 
             #endregion
 
@@ -55,24 +62,54 @@ internal class Program
                     // see https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/
                     options.EmitStaticAudienceClaim = true;
                 })
-                // тестовый x509-сертификат, IdentityServer использует RS256 для подписи JWT
+                 //тестовый x509-сертификат, IdentityServer использует RS256 для подписи JWT
+                 //not recommended for production - you need to store your key material somewhere secure
                 .AddDeveloperSigningCredential()
-                .AddInMemoryIdentityResources(Config.IdentityResources)
-                .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients)
+                // конфигурация хранится в базе
+                .AddConfigurationStore(options =>
+                {
+                    options.ConfigureDbContext = b => b.UseNpgsql(builder.Configuration.GetConnectionString("IdentityConfigDBConnection"),
+                    sql => sql.MigrationsAssembly(migrationsAssembly));
+                })
+                .AddOperationalStore(options =>
+                {
+                    options.ConfigureDbContext = b => b.UseNpgsql(builder.Configuration.GetConnectionString("IdentityConfigDBConnection"),
+                    sql => sql.MigrationsAssembly(migrationsAssembly));
+
+                    // this enables automatic token cleanup. this is optional.
+                    options.EnableTokenCleanup = true;
+                    options.TokenCleanupInterval = 3600; // interval in seconds (default is 3600)
+                })
+                //.AddInMemoryIdentityResources(Config.IdentityResources)
+                //.AddInMemoryApiScopes(Config.ApiScopes)
+                //.AddInMemoryClients(Config.Clients)
                 .AddAspNetIdentity<CRMUser>()
                 .AddProfileService<CRMProfileService>();
 
             builder.Services.AddAuthentication()
-                .AddGoogle(options =>
+                .AddGoogle("Google", options =>
                 {
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
 
-                    // register your IdentityServer with Google at https://console.developers.google.com
-                    // enable the Google+ API
-                    // set the redirect URI to https://localhost:5001/signin-google
-                    options.ClientId = "copy client ID from Google here";
-                    options.ClientSecret = "copy client secret from Google here";
+                    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
+                    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
+                })
+                .AddOpenIdConnect("oidc", "Demo IdentityServer", options =>
+                {
+                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+                    options.SignOutScheme = IdentityServerConstants.SignoutScheme;
+                    options.SaveTokens = true;
+
+                    options.Authority = "https://demo.duendesoftware.com";
+                    options.ClientId = "interactive.confidential";
+                    options.ClientSecret = "secret";
+                    options.ResponseType = "code";
+
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        NameClaimType = "name",
+                        RoleClaimType = "role"
+                    };
                 });
 
             #endregion
@@ -85,6 +122,8 @@ internal class Program
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            HostingExtensions.InitializeDatabase(app);
 
             app.UseStaticFiles();
             app.UseRouting();

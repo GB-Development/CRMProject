@@ -3,9 +3,11 @@
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>511536EF-F270-4058-80CA-1C89C192F69A</UserSecretsId>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<PackageReference Include="CaseConverter" Version="2.0.1" />
 		<PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="6.3.2" />
 		<PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="7.0.5" />
 		<PackageReference Include="Npgsql" Version="7.0.4" />

@@ -11,7 +11,6 @@ namespace CRMIdentity
             {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
-                new IdentityResources.Email(),
             };
 
         public static IEnumerable<ApiScope> ApiScopes =>
@@ -53,8 +52,6 @@ namespace CRMIdentity
                 {
                     IdentityServerConstants.StandardScopes.OpenId,
                     IdentityServerConstants.StandardScopes.Profile,
-                    IdentityServerConstants.StandardScopes.Email,
-                    JwtClaimTypes.Role,
                     "crm.api"
                 }
             },
