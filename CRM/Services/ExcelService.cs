@@ -1,16 +1,20 @@
 ﻿using CRM.Model.Entities;
-using CRM.Services.Helpers;
+using CRM.Services.Helpers.Excel;
 using CRM.Services.Repositories;
 using ExcelDataReader;
+using static CRM.Services.Helpers.Excel.ExcelResult;
 
 namespace CRM.Services
 {
+    /// <summary>
+    /// Представляет сервис для работы с импортом файлов Excel
+    /// </summary>
     public class ExcelService : IExcelService
     {
         private readonly ICompanyRepository _companyRepo;
 
         /// <summary>
-        /// 
+        /// Инцииализирует новый экземпляр класса <see cref="ExcelService"/>
         /// </summary>
         /// <param name="companyRepo"></param>
         public ExcelService(ICompanyRepository companyRepo)
@@ -19,10 +23,10 @@ namespace CRM.Services
         }
 
         /// <summary>
-        /// 
+        /// Представляет реализацию метода импорта (парсинга) файла Excel
         /// </summary>
         /// <param name="file"></param>
-        /// <returns></returns>
+        /// <returns>Возвращает в контроллер результат типа <see cref="ExcelParseResponse"/></returns>
         public ExcelParseResponse ExcelParse(IFormFile file)
         {
             try
@@ -31,13 +35,12 @@ namespace CRM.Services
                     return new ExcelParseResponse
                     {
                         Result = false,
-                        StatusCode = StatusCodeType.Fail,
-                        ErrorMessage = ExcelParseResponse.FileEmpty
-                    }; ;
+                        StatusCode = ParseStatusCodeType.Fail,
+                        ParseResultMessage = ExcelParseMessage.FileEmpty
+                    };
 
                 List<Company> companies = new List<Company>() { };
                 var fileName = file.FileName;
-                System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
                 using (var stream = File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
                 {
@@ -110,8 +113,8 @@ namespace CRM.Services
                 return new ExcelParseResponse
                 {
                     Result = true,
-                    StatusCode = StatusCodeType.Success,
-                    ErrorMessage = string.Empty
+                    StatusCode = ParseStatusCodeType.Success,
+                    ParseResultMessage = ExcelParseMessage.ImportSuccess
                 };
 
             }
@@ -121,8 +124,8 @@ namespace CRM.Services
                 return new ExcelParseResponse
                 {
                     Result = false,
-                    StatusCode = StatusCodeType.Fail,
-                    ErrorMessage = ExcelParseResponse.ImportFail + Environment.NewLine + e.InnerException?.Message.ToString()
+                    StatusCode = ParseStatusCodeType.Fail,
+                    ParseResultMessage = ExcelParseMessage.ImportFail + Environment.NewLine + e.InnerException?.Message.ToString()
                 };
             }
         }
