@@ -3,118 +3,77 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CRM.Model.Entities
 {
+    /// <summary>
+    /// Представляет класс, описывающий сущность "Компания"
+    /// </summary>
     [Table("Company")]
     public class Company
     {
+        /// <summary>
+        /// Получает или задает ИД компании
+        /// </summary>
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int CompanyId { get; set; }
 
-        public string? CompanyName { get; set; }
+        /// <summary>
+        /// Получает или задает наименование компании
+        /// </summary>
+        public string CompanyName { get; set; }
 
-        public string? INN { get; set; }
+        /// <summary>
+        /// Получает или задает ИНН компании
+        /// </summary>
+        public string INN { get; set; }
 
+        /// <summary>
+        /// Получает или задает КПП компании
+        /// </summary>
         public string? KPP { get; set; }
 
+        /// <summary>
+        /// Получает или задает ОГРН компании
+        /// </summary>
         public string? OGRN { get; set; }
 
-        public string? SupervisorFullName { get; set; }
+        /// <summary>
+        /// Получает или задает ФИО руководителя
+        /// </summary>
+        public string? DirectorName { get; set; }
 
-        public string? SupervisorINNFL { get; set; }
+        /// <summary>
+        /// Получает или задает должность руководителя
+        /// </summary>
+        public string? DirectorPost { get; set; }
 
-        public string? SupervisorJobTitle { get; set; }
+        /// <summary>
+        /// Получает или задает адрес компании
+        /// </summary>
+        public string? Address { get; set; }
 
-        public string? PhoneNumber { get; set; }
+        /// <summary>
+        /// Получает или задает сайт компании
+        /// </summary>
+        public string? WebSite { get; set; }
 
-        public string? ExtraPhoneNumber01 { get; set; }
+        /// <summary>
+        /// Получает или задает дату регистрации компании
+        /// </summary>
+        public DateTime? DateRegister { get; set; }
 
-        public string? ExtraPhoneNumber02 { get; set; }
+        /// <summary>
+        /// Получает или задает регион регистрации компании
+        /// </summary>
+        public string? RegionRegister { get; set; }
 
-        public string? ExtraPhoneNumber03 { get; set; }
-
-        public string? ExtraPhoneNumber04 { get; set; }
-
-        public string? ExtraPhoneNumber05 { get; set; }
-
-        public string? ExtraPhoneNumber06 { get; set; }
-
-        public string? ExtraPhoneNumber07 { get; set; }
-
-        public string? ExtraPhoneNumber08 { get; set; }
-
-        public string? ExtraPhoneNumber09 { get; set; }
-
-        public string? EmailAddress { get; set; }
-
-        public string? EmailAddress01 { get; set; }
-
-        public string? EmailAddress02 { get; set; }
-
-        public string? EmailAddress03 { get; set; }
-
-        public string? EmailAddress04 { get; set; }
-
-        public string? EmailAddress05 { get; set; }
-
-        public string? EmailAddress06 { get; set; }
-
-        public string? EmailAddress07 { get; set; }
-
-        public string? EmailAddress08 { get; set; }
-
-        public string? EmailAddress09 { get; set; }
-
-        public string? FullAddress { get; set; }
-
-        public string? SiteLink { get; set; }
-
-        public string? FocusLink { get; set; }
-
-        public string? CompanyStatus { get; set; }
-
-        public DateTime? RegistrationDate { get; set; }
-
-        public string? MSPList { get; set; }
-
-        public double? Revenue { get; set; }
-
-        public double? Balance { get; set; }
-
-        public double? Arbitration { get; set; }
-
-        public double? IncomeLoss { get; set; }
-
-        public string? SpecialTaxRegime { get; set; }
-
-        public string? ValueAddedTax { get; set; }
-
+        /// <summary>
+        /// Получает или задает основной вид деятельности компании
+        /// </summary>
         public string? MainActivity { get; set; }
 
-        public string? ExtraActivity { get; set; }
-
-        public string? OKPD2 { get; set; }
-
-        public string? RegistrationRegion { get; set; }
-
-        public string? ObtainedLicenses { get; set; }
-
-        public string? Jobs { get; set; }
-
-        public string? LeasingSubject { get; set; }
-
-        public string? LeasingSubjectCategory { get; set; }
-
-        public string? PropertyPledge { get; set; }
-
-        public double? EmploeeCount { get; set; }
-
-        public string? CompanyBranches { get; set; }
-
-        public double? CompanyBranchesCount { get; set; }
-
-        public string? CompanySource { get; set; }
-
-        public string? CompanySegmentName { get; set; }
-
+        /// <summary>
+        /// Получает или задает коллекцию контактов компании
+        /// </summary>
+        public List<Contact>? Contacts { get; set; }
 
     }
 }
