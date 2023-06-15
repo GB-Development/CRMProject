@@ -2,7 +2,6 @@
 using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
-using System;
 
 namespace NotificationServiceHangfireTest.Controllers
 {
@@ -48,8 +47,10 @@ namespace NotificationServiceHangfireTest.Controllers
         {
             string cron = "0 6-15 * * *";
 
-            RecurringJob.AddOrUpdate("Run Find Overdue Transactions Job",
-                () => ServiceProvider.GetService(serviceType).FindOverdueTransactions(), cron); ;
+            RecurringJob.AddOrUpdate("Run Find Overdue Transactions Job", 
+                () => Console.WriteLine("Тут будет сообщение!"), cron); ;
+            // Вместо консоли будет добавлена задача 
+            //() => serviceProvider.GetService<IFindOverdueTransactionsJobs>().FindOverdueTransactions()
             return Ok();
         }
 
