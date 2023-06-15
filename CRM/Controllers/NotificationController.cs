@@ -1,5 +1,8 @@
-﻿using Hangfire;
+﻿using CRM.Jobs;
+using Hangfire;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.DependencyInjection;
+using System;
 
 namespace NotificationServiceHangfireTest.Controllers
 {
@@ -7,6 +10,11 @@ namespace NotificationServiceHangfireTest.Controllers
     [ApiController]
     public class NotificationController : ControllerBase
     {
+        /// <summary>
+        /// Тестовый контроллер выполнения единичной задачи с применением Hangfire
+        /// </summary>
+        /// <param name="client">Клиент для обращения из Hangfire</param>
+        /// <returns>Возвращает номер задачи</returns>
         [HttpPost]
         [Route("fire-and-forget")]
         public IActionResult FireAndForget(string client)
@@ -16,6 +24,11 @@ namespace NotificationServiceHangfireTest.Controllers
             return Ok($"Job ID: {jobId}");
         }
 
+        /// <summary>
+        /// Тестовый контроллер выполнения отложенной задачи с применением Hangfire
+        /// </summary>
+        /// <param name="client">Клиент для обращения из Hangfire</param>
+        /// <returns>Возвращает номер задачи</returns>
         [HttpPost]
         [Route("delayed")]
         public IActionResult Delayed (string client)
@@ -24,12 +37,34 @@ namespace NotificationServiceHangfireTest.Controllers
             Console.WriteLine($"Сессия клиента: {client} - закрыта! тоже тест"), TimeSpan.FromSeconds(60));
             return Ok($"Job ID: {jobId}");
         }
+
+        /// <summary>
+        /// Тестовый контроллер выполнения периодической задачи с применением Hangfire
+        /// </summary>
+        /// <returns></returns>
         [HttpPost]
         [Route("recurring")]
         public IActionResult Recurring()
         {
-            RecurringJob.AddOrUpdate("Run Find Overdue Transactions Job", () => Console.WriteLine("Тут будет сообщение!"), "0 6-15 * * *"); ;
+            string cron = "0 6-15 * * *";
+
+            RecurringJob.AddOrUpdate("Run Find Overdue Transactions Job",
+                () => ServiceProvider.GetService(serviceType).FindOverdueTransactions(), cron); ;
             return Ok();
+        }
+
+        /// <summary>
+        /// Тестовый контроллер выполнения продолжительной задачи с применением Hangfire
+        /// </summary>
+        /// <param name="client">Клиент для обращения из Hangfire</param>
+        /// <returns>Возвращает номер задачи</returns>
+        [HttpPost]
+        [Route("continuation")]
+        public IActionResult Continuation(string client)
+        {
+            string jobId = BackgroundJob.Enqueue(() => Console.WriteLine($"Привет, "));
+            BackgroundJob.ContinueWith(jobId, () => Console.WriteLine($"как дела {client}! Тест"));
+            return Ok($"Job ID: {jobId}");
         }
     }
 }
