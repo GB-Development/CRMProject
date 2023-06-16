@@ -30,7 +30,7 @@ namespace IdentityServer.Migrations.ConfigurationDb
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
@@ -44,7 +44,7 @@ namespace IdentityServer.Migrations.ConfigurationDb
                         .HasColumnType("boolean");
 
                     b.Property<DateTime?>("LastAccessed")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -61,7 +61,7 @@ namespace IdentityServer.Migrations.ConfigurationDb
                         .HasColumnType("boolean");
 
                     b.Property<DateTime?>("Updated")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -160,14 +160,14 @@ namespace IdentityServer.Migrations.ConfigurationDb
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("Expiration")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -195,7 +195,7 @@ namespace IdentityServer.Migrations.ConfigurationDb
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
@@ -212,7 +212,7 @@ namespace IdentityServer.Migrations.ConfigurationDb
                         .HasColumnType("boolean");
 
                     b.Property<DateTime?>("LastAccessed")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -229,7 +229,7 @@ namespace IdentityServer.Migrations.ConfigurationDb
                         .HasColumnType("boolean");
 
                     b.Property<DateTime?>("Updated")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -368,10 +368,10 @@ namespace IdentityServer.Migrations.ConfigurationDb
                         .HasColumnType("boolean");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<TimeSpan>("DPoPClockSkew")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("interval");
 
                     b.Property<int>("DPoPValidationMode")
                         .HasColumnType("INTEGER");
@@ -407,7 +407,7 @@ namespace IdentityServer.Migrations.ConfigurationDb
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("LastAccessed")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("LogoUri")
                         .HasMaxLength(2000)
@@ -456,7 +456,7 @@ namespace IdentityServer.Migrations.ConfigurationDb
                         .HasColumnType("boolean");
 
                     b.Property<DateTime?>("Updated")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("UserCodeType")
                         .HasMaxLength(100)
@@ -687,14 +687,14 @@ namespace IdentityServer.Migrations.ConfigurationDb
                         .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .HasMaxLength(2000)
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("Expiration")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Type")
                         .IsRequired()
@@ -722,7 +722,7 @@ namespace IdentityServer.Migrations.ConfigurationDb
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("DisplayName")
                         .HasMaxLength(200)
@@ -732,7 +732,7 @@ namespace IdentityServer.Migrations.ConfigurationDb
                         .HasColumnType("boolean");
 
                     b.Property<DateTime?>("LastAccessed")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<bool>("NonEditable")
                         .HasColumnType("boolean");
@@ -751,7 +751,7 @@ namespace IdentityServer.Migrations.ConfigurationDb
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("Updated")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -770,7 +770,7 @@ namespace IdentityServer.Migrations.ConfigurationDb
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Description")
                         .HasMaxLength(1000)
@@ -801,7 +801,7 @@ namespace IdentityServer.Migrations.ConfigurationDb
                         .HasColumnType("boolean");
 
                     b.Property<DateTime?>("Updated")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 

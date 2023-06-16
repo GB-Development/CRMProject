@@ -20,8 +20,8 @@ namespace IdentityServer.Migrations.PersistedGrantDb
                     SessionId = table.Column<string>(type: "text", maxLength: 100, nullable: true),
                     ClientId = table.Column<string>(type: "text", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "text", maxLength: 200, nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "text", nullable: false),
-                    Expiration = table.Column<DateTime>(type: "text", nullable: false),
+                    CreationTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Expiration = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Data = table.Column<string>(type: "text", maxLength: 50000, nullable: false)
                 },
                 constraints: table =>
@@ -35,7 +35,7 @@ namespace IdentityServer.Migrations.PersistedGrantDb
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
                     Version = table.Column<int>(type: "integer", nullable: false),
-                    Created = table.Column<DateTime>(type: "text", nullable: false),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Use = table.Column<string>(type: "text", nullable: true),
                     Algorithm = table.Column<string>(type: "text", maxLength: 100, nullable: false),
                     IsX509Certificate = table.Column<bool>(type: "boolean", nullable: false),
@@ -59,9 +59,9 @@ namespace IdentityServer.Migrations.PersistedGrantDb
                     SessionId = table.Column<string>(type: "text", maxLength: 100, nullable: true),
                     ClientId = table.Column<string>(type: "text", maxLength: 200, nullable: false),
                     Description = table.Column<string>(type: "text", maxLength: 200, nullable: true),
-                    CreationTime = table.Column<DateTime>(type: "text", nullable: false),
-                    Expiration = table.Column<DateTime>(type: "text", nullable: true),
-                    ConsumedTime = table.Column<DateTime>(type: "text", nullable: true),
+                    CreationTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Expiration = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    ConsumedTime = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     Data = table.Column<string>(type: "text", maxLength: 50000, nullable: false)
                 },
                 constraints: table =>
@@ -80,9 +80,9 @@ namespace IdentityServer.Migrations.PersistedGrantDb
                     SubjectId = table.Column<string>(type: "text", maxLength: 100, nullable: false),
                     SessionId = table.Column<string>(type: "text", maxLength: 100, nullable: true),
                     DisplayName = table.Column<string>(type: "text", maxLength: 100, nullable: true),
-                    Created = table.Column<DateTime>(type: "text", nullable: false),
-                    Renewed = table.Column<DateTime>(type: "text", nullable: false),
-                    Expires = table.Column<DateTime>(type: "text", nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Renewed = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Expires = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     Data = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>

@@ -1,5 +1,6 @@
 using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace CRMIdentity.Pages.Logout
@@ -17,7 +18,7 @@ namespace CRMIdentity.Pages.Logout
             _interactionService = interactionService;
         }
 
-        public async Task OnGet(string logoutId)
+        public async Task<IActionResult> OnGet(string logoutId)
         {
             // get context information (client name, post logout redirect URI and iframe for federated signout)
             var logout = await _interactionService.GetLogoutContextAsync(logoutId);
@@ -29,6 +30,11 @@ namespace CRMIdentity.Pages.Logout
                 ClientName = String.IsNullOrEmpty(logout?.ClientName) ? logout?.ClientId : logout?.ClientName,
                 SignOutIframeUrl = logout?.SignOutIFrameUrl
             };
+
+            await Task.Delay(1000);
+
+            return RedirectToPage("/Account/Login/Index");
+
         }
     }
 }

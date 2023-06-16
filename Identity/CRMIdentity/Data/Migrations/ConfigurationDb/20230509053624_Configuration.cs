@@ -23,9 +23,9 @@ namespace IdentityServer.Migrations.ConfigurationDb
                     AllowedAccessTokenSigningAlgorithms = table.Column<string>(type: "text", maxLength: 100, nullable: true),
                     ShowInDiscoveryDocument = table.Column<bool>(type: "boolean", nullable: false),
                     RequireResourceIndicator = table.Column<bool>(type: "boolean", nullable: false),
-                    Created = table.Column<DateTime>(type: "text", nullable: false),
-                    Updated = table.Column<DateTime>(type: "text", nullable: true),
-                    LastAccessed = table.Column<DateTime>(type: "text", nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Updated = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    LastAccessed = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     NonEditable = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -46,9 +46,9 @@ namespace IdentityServer.Migrations.ConfigurationDb
                     Required = table.Column<bool>(type: "boolean", nullable: false),
                     Emphasize = table.Column<bool>(type: "boolean", nullable: false),
                     ShowInDiscoveryDocument = table.Column<bool>(type: "boolean", nullable: false),
-                    Created = table.Column<DateTime>(type: "text", nullable: false),
-                    Updated = table.Column<DateTime>(type: "text", nullable: true),
-                    LastAccessed = table.Column<DateTime>(type: "text", nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Updated = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    LastAccessed = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     NonEditable = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -79,7 +79,7 @@ namespace IdentityServer.Migrations.ConfigurationDb
                     AllowAccessTokensViaBrowser = table.Column<bool>(type: "boolean", nullable: false),
                     RequireDPoP = table.Column<bool>(type: "boolean", nullable: false),
                     DPoPValidationMode = table.Column<int>(type: "integer", nullable: false),
-                    DPoPClockSkew = table.Column<TimeSpan>(type: "text", nullable: false),
+                    DPoPClockSkew = table.Column<TimeSpan>(type: "interval", nullable: false),
                     FrontChannelLogoutUri = table.Column<string>(type: "text", maxLength: 2000, nullable: true),
                     FrontChannelLogoutSessionRequired = table.Column<bool>(type: "boolean", nullable: false),
                     BackChannelLogoutUri = table.Column<string>(type: "text", maxLength: 2000, nullable: true),
@@ -108,9 +108,9 @@ namespace IdentityServer.Migrations.ConfigurationDb
                     CibaLifetime = table.Column<int>(type: "integer", nullable: true),
                     PollingInterval = table.Column<int>(type: "integer", nullable: true),
                     CoordinateLifetimeWithUserSession = table.Column<bool>(type: "boolean", nullable: true),
-                    Created = table.Column<DateTime>(type: "text", nullable: false),
-                    Updated = table.Column<DateTime>(type: "text", nullable: true),
-                    LastAccessed = table.Column<DateTime>(type: "text", nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Updated = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    LastAccessed = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     NonEditable = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -129,9 +129,9 @@ namespace IdentityServer.Migrations.ConfigurationDb
                     Enabled = table.Column<bool>(type: "boolean", nullable: false),
                     Type = table.Column<string>(type: "text", maxLength: 20, nullable: false),
                     Properties = table.Column<string>(type: "text", nullable: true),
-                    Created = table.Column<DateTime>(type: "text", nullable: false),
-                    Updated = table.Column<DateTime>(type: "text", nullable: true),
-                    LastAccessed = table.Column<DateTime>(type: "text", nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Updated = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
+                    LastAccessed = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     NonEditable = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -152,8 +152,8 @@ namespace IdentityServer.Migrations.ConfigurationDb
                     Required = table.Column<bool>(type: "boolean", nullable: false),
                     Emphasize = table.Column<bool>(type: "boolean", nullable: false),
                     ShowInDiscoveryDocument = table.Column<bool>(type: "boolean", nullable: false),
-                    Created = table.Column<DateTime>(type: "text", nullable: false),
-                    Updated = table.Column<DateTime>(type: "text", nullable: true),
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Updated = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     NonEditable = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -231,9 +231,9 @@ namespace IdentityServer.Migrations.ConfigurationDb
                     ApiResourceId = table.Column<int>(type: "integer", nullable: false),
                     Description = table.Column<string>(type: "text", maxLength: 1000, nullable: true),
                     Value = table.Column<string>(type: "text", maxLength: 4000, nullable: false),
-                    Expiration = table.Column<DateTime>(type: "text", nullable: true),
+                    Expiration = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     Type = table.Column<string>(type: "text", maxLength: 250, nullable: false),
-                    Created = table.Column<DateTime>(type: "text", nullable: false)
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -458,9 +458,9 @@ namespace IdentityServer.Migrations.ConfigurationDb
                     ClientId = table.Column<int>(type: "integer", nullable: false),
                     Description = table.Column<string>(type: "text", maxLength: 2000, nullable: true),
                     Value = table.Column<string>(type: "text", maxLength: 4000, nullable: false),
-                    Expiration = table.Column<DateTime>(type: "text", nullable: true),
+                    Expiration = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
                     Type = table.Column<string>(type: "text", maxLength: 250, nullable: false),
-                    Created = table.Column<DateTime>(type: "text", nullable: false)
+                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {

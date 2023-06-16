@@ -29,7 +29,7 @@ namespace IdentityServer.Migrations.PersistedGrantDb
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Data")
                         .IsRequired()
@@ -47,7 +47,7 @@ namespace IdentityServer.Migrations.PersistedGrantDb
 
                     b.Property<DateTime?>("Expiration")
                         .IsRequired()
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("SessionId")
                         .HasMaxLength(100)
@@ -78,7 +78,7 @@ namespace IdentityServer.Migrations.PersistedGrantDb
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Data")
                         .IsRequired()
@@ -117,10 +117,10 @@ namespace IdentityServer.Migrations.PersistedGrantDb
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("ConsumedTime")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Data")
                         .IsRequired()
@@ -132,7 +132,7 @@ namespace IdentityServer.Migrations.PersistedGrantDb
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("Expiration")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Key")
                         .HasMaxLength(200)
@@ -177,7 +177,7 @@ namespace IdentityServer.Migrations.PersistedGrantDb
 
 
                     b.Property<DateTime>("Created")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Data")
                         .IsRequired()
@@ -188,7 +188,7 @@ namespace IdentityServer.Migrations.PersistedGrantDb
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime?>("Expires")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Key")
                         .IsRequired()
@@ -196,7 +196,7 @@ namespace IdentityServer.Migrations.PersistedGrantDb
                         .HasColumnType("TEXT");
 
                     b.Property<DateTime>("Renewed")
-                        .HasColumnType("TEXT");
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Scheme")
                         .IsRequired()

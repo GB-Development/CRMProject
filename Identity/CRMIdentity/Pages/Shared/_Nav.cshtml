@@ -5,6 +5,8 @@
     {
         name = Context.User?.GetDisplayName();
     }
+
+    bool userIsAdmin = Context.User.IsInRole("admin");
 }
 
 <div class="nav-page">
@@ -25,8 +27,27 @@
                         <a class="dropdown-item" asp-page="/Account/Logout/Index">Logout</a>
                     </div>
               </li>
+                @if (userIsAdmin)
+                {
+                    <li class="nav-item">
+                        <a class=" btn btn-secondary" asp-page="/Admin/Index">Admin Controls</a>
+                    </li>
+                }
             </ul>
         }
+        else
+        {
+            <ul class="navbar-nav mr-auto">
+
+                    <li class="nav-item">
+                    <a class=" btn btn-secondary" asp-page="/Account/Login/Index">Login</a>
+                    </li>
+
+            </ul>
+
+        }
+
+
     
     </nav>
 </div>

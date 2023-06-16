@@ -4,5 +4,6 @@ namespace CRMIdentity.Data.Models
 {
     public class CRMUser: IdentityUser
     {
+        public string? Name { get; set; }
     }
 }

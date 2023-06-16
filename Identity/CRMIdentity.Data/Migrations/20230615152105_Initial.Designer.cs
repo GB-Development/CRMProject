@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CRMIdentity.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230610080154_Initial")]
+    [Migration("20230615152105_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -49,6 +49,9 @@ namespace CRMIdentity.Data.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("text");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)

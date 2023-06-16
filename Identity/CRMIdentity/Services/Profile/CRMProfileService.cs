@@ -26,12 +26,17 @@ namespace CRMIdentity.Services.Profile
 
             CRMUser user = await _userManager.GetUserAsync(context.Subject);
 
+            if (user == null) return;
+
             ClaimsPrincipal userClaims = await _userClaimsPrincipalFactory.CreateAsync(user);
 
-            List<Claim> claims = userClaims.Claims.Where(u => context.RequestedClaimTypes.Contains(u.Type)).ToList();
+            if (userClaims == null) return;
 
-            //claims = claims.Where(u => context.RequestedClaimTypes.Contains(u.Type)).ToList();
-            //claims.Add(new Claim(JwtClaimTypes.Name, user.Name));
+            var t = context.RequestedClaimTypes;
+
+            List<Claim> claims = userClaims.Claims.Where(u => context.RequestedClaimTypes.Contains(u.Type)).ToList();
+          
+            claims.Add(new Claim(JwtClaimTypes.Name, user.Name));
 
             if (_userManager.SupportsUserRole)
             {

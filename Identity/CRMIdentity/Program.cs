@@ -1,14 +1,17 @@
-﻿using CRMIdentity;
-using CRMIdentity.Data.Models;
-using Duende.IdentityServer;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Serilog;
-using CRMIdentity.Data;
-using CRMIdentity.Services.Profile;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.AspNetCore.Hosting;
+﻿using Serilog;
 using System.Reflection;
+using CRMIdentity;
+using CRMIdentity.Repository;
+using CRMIdentity.Services.Profile;
+using CRMIdentity.Data;
+using CRMIdentity.Data.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi.Any;
+using IdentityModel;
+using Duende.IdentityServer.Services;
 
 internal class Program
 {
@@ -33,23 +36,41 @@ internal class Program
 
             #endregion
 
-            builder.Services.AddRazorPages();
+            #region Получение параметров подключения к базе данных
 
-            #region Database
+            //
+            // При запуске в "ASPNETCORE_ENVIRONMENT": "Production"
+            // нужно создать переменные окружения:
+            // DB_POSTGRESS_IDENTITY_USERS - для подключения к базе данных пользователей
+            // DB_POSTGRESS_IDENTITY_CONFIG - для подключения к базе данных конфигурации Identity Server
+            //
 
-            var migrationsAssembly = typeof(Program).GetTypeInfo().Assembly.GetName().Name;
+            var dbConnectionIdentityUsers = builder.Environment.IsDevelopment() ?
+                     builder.Configuration.GetConnectionString("DbConnectionIdentityUsers") :
+                     builder.Configuration.GetSection("DB_POSTGRESS_IDENTITY_USERS").Value;
 
-            builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseNpgsql(builder.Configuration.GetConnectionString("IdentityUserDBConnection")));
-
+            var dbConnectionIdentityConfig = builder.Environment.IsDevelopment() ?
+                     builder.Configuration.GetConnectionString("DBConnectionIdentityConfig") :
+                     builder.Configuration.GetSection("DB_POSTGRESS_IDENTITY_CONFIG").Value;
 
             #endregion
 
-            #region Identity
+            #region Database
+
+            builder.Services.AddDbContext<ApplicationDbContext>(options =>
+                options.UseNpgsql(dbConnectionIdentityUsers));
+
+            #endregion
+
+            #region Настройки Identity Server
+
+            var migrationsAssembly = typeof(Program).GetTypeInfo().Assembly.GetName().Name;
 
             builder.Services.AddIdentity<CRMUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            builder.Services.AddScoped<IProfileService, CRMProfileService>();
 
             builder.Services
                 .AddIdentityServer(options =>
@@ -62,57 +83,72 @@ internal class Program
                     // see https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/
                     options.EmitStaticAudienceClaim = true;
                 })
-                 //тестовый x509-сертификат, IdentityServer использует RS256 для подписи JWT
-                 //not recommended for production - you need to store your key material somewhere secure
+                //тестовый x509-сертификат, IdentityServer использует RS256 для подписи JWT
+                //not recommended for production - you need to store your key material somewhere secure
                 .AddDeveloperSigningCredential()
-                // конфигурация хранится в базе
+
+                // Конфигурация сервера хранится в базе
                 .AddConfigurationStore(options =>
                 {
-                    options.ConfigureDbContext = b => b.UseNpgsql(builder.Configuration.GetConnectionString("IdentityConfigDBConnection"),
+                    options.ConfigureDbContext = b => b.UseNpgsql(dbConnectionIdentityConfig,
                     sql => sql.MigrationsAssembly(migrationsAssembly));
                 })
                 .AddOperationalStore(options =>
                 {
-                    options.ConfigureDbContext = b => b.UseNpgsql(builder.Configuration.GetConnectionString("IdentityConfigDBConnection"),
+                    options.ConfigureDbContext = b => b.UseNpgsql(dbConnectionIdentityConfig,
                     sql => sql.MigrationsAssembly(migrationsAssembly));
 
                     // this enables automatic token cleanup. this is optional.
                     options.EnableTokenCleanup = true;
                     options.TokenCleanupInterval = 3600; // interval in seconds (default is 3600)
                 })
+                //// Конфигурация сервера хранится в памяти
                 //.AddInMemoryIdentityResources(Config.IdentityResources)
                 //.AddInMemoryApiScopes(Config.ApiScopes)
                 //.AddInMemoryClients(Config.Clients)
                 .AddAspNetIdentity<CRMUser>()
                 .AddProfileService<CRMProfileService>();
 
-            builder.Services.AddAuthentication()
-                .AddGoogle("Google", options =>
-                {
-                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+            #endregion
 
-                    options.ClientId = builder.Configuration["Authentication:Google:ClientId"];
-                    options.ClientSecret = builder.Configuration["Authentication:Google:ClientSecret"];
-                })
-                .AddOpenIdConnect("oidc", "Demo IdentityServer", options =>
-                {
-                    options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-                    options.SignOutScheme = IdentityServerConstants.SignoutScheme;
-                    options.SaveTokens = true;
+            builder.Services.AddRazorPages();
+            builder.Services.AddAuthentication();
+            builder.Services.AddControllers();
 
-                    options.Authority = "https://demo.duendesoftware.com";
-                    options.ClientId = "interactive.confidential";
-                    options.ClientSecret = "secret";
-                    options.ResponseType = "code";
+            #region Add UI Admin Section
 
-                    options.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        NameClaimType = "name",
-                        RoleClaimType = "role"
-                    };
-                });
+            // this adds the necessary config for the simple admin/config pages
+
+            builder.Services.AddAuthorization(options =>
+                options.AddPolicy("admin",
+                    policy => policy.RequireClaim(JwtClaimTypes.Role, Roles.Admin))
+            );
+
+            builder.Services.Configure<RazorPagesOptions>(options =>
+                options.Conventions.AuthorizeFolder("/Admin", "admin"));
+
+            builder.Services.AddTransient<ClientRepository>();
+            builder.Services.AddTransient<IdentityScopeRepository>();
+            builder.Services.AddTransient<ApiScopeRepository>();
 
             #endregion
+
+
+            if (builder.Environment.IsDevelopment())
+            {
+                builder.Services.AddEndpointsApiExplorer();
+                builder.Services.AddSwaggerGen(c =>
+                {
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "CRM User Register", Version = "v1" });
+
+                    // Поддержка TimeSpan
+                    c.MapType<TimeSpan>(() => new OpenApiSchema
+                    {
+                        Type = "string",
+                        Example = new OpenApiString("00:00:00")
+                    });
+                });
+            }
 
             var app = builder.Build();
 
@@ -121,17 +157,25 @@ internal class Program
             if (app.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
-            HostingExtensions.InitializeDatabase(app);
+            app.UseHttpsRedirection();
 
             app.UseStaticFiles();
             app.UseRouting();
-            app.UseIdentityServer();
+
+            app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseIdentityServer();
 
             app.MapRazorPages()
                 .RequireAuthorization();
+
+            app.MapControllers();
+
 
             // this seeding is only for the template to bootstrap the DB and users.
             // in production you will likely want a different approach.
@@ -139,7 +183,10 @@ internal class Program
             {
                 Log.Information("Seeding database...");
                 SeedData.EnsureSeedData(app);
-                Log.Information("Done seeding database. Exiting.");
+                Log.Information("Done seeding database.");
+                Log.Information("Seeding identity server config database(clients, resources, scopes)");
+                SeedData.InitializeDatabase(app);
+                Log.Information("Done seeding identity server config database. Exiting.");
                 return;
             }
 

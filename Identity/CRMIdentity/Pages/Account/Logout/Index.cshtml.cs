@@ -95,7 +95,7 @@ namespace CRMIdentity.Pages.Logout
                 }
             }
 
-            return RedirectToPage("/Account/Logout/LoggedOut", new { logoutId = LogoutId });
+            return RedirectToPage("/Account/Logout/Loggedout", new { logoutId = LogoutId });
         }
     }
 }
