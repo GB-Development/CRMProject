@@ -1,0 +1,4 @@
+- Строка подключения перенесена из appsettings.json в переменные окружения
+- Переменные окружения находятся по пути "Project CRM -> Project Properties -> Debug -> Debug launch profiles UI -> Environment Variables"
+- Наименование переменной "POSTGRESQL_CONNECTION_STRING", значение вида "Server/=localhost;Port/=****;Userid/=****;Password/=****;Pooling/=false;Timeout/=15;Database/=CRMDb", подставив соответствующие значения параметров подключения
+- Перед применением миграции на БД (update-database) необходимо в Package Manager Console (PMC) ввести команду $env:POSTGRESQL_CONNECTION_STRING='Server=localhost;Port=****;Userid=****;Password=****;Pooling=false;Timeout=15;Database=CRMDb', подставив соответствующие значения параметров подключения
