@@ -1,5 +1,7 @@
-﻿using CRM.Model.Entities;
+﻿using CRM.Model.DTO;
+using CRM.Model.Entities;
 using CRM.Services.Helpers.Excel;
+using CRM.Services.Interfaces;
 using CRM.Services.Repositories;
 using ExcelDataReader;
 using static CRM.Services.Helpers.Excel.ExcelResult;
@@ -12,14 +14,18 @@ namespace CRM.Services
     public class ExcelService : IExcelService
     {
         private readonly ICompanyRepository _companyRepo;
+        private readonly IContactRepository _contactRepo;
+        private readonly ICompanyService _companyService;
 
         /// <summary>
         /// Инцииализирует новый экземпляр класса <see cref="ExcelService"/>
         /// </summary>
         /// <param name="companyRepo"></param>
-        public ExcelService(ICompanyRepository companyRepo)
+        public ExcelService(ICompanyRepository companyRepo, IContactRepository contactRepo, ICompanyService companyService)
         {
             _companyRepo = companyRepo;
+            _contactRepo = contactRepo;
+            _companyService = companyService;
         }
 
         /// <summary>
@@ -27,7 +33,7 @@ namespace CRM.Services
         /// </summary>
         /// <param name="file"></param>
         /// <returns>Возвращает в контроллер результат типа <see cref="ExcelParseResponse"/></returns>
-        public ExcelParseResponse ExcelParse(IFormFile file)
+        public async Task<ExcelParseResponse> ExcelParse(IFormFile file)
         {
             try
             {
@@ -39,7 +45,7 @@ namespace CRM.Services
                         ParseResultMessage = ExcelParseMessage.FileEmpty
                     };
 
-                List<Company> companies = new List<Company>() { };
+                List<CompanyExcelDTO>? companiesExcelDTO = new List<CompanyExcelDTO>();
                 var fileName = file.FileName;
 
                 using (var stream = File.Open(fileName, FileMode.Open, FileAccess.Read, FileShare.Read))
@@ -48,15 +54,18 @@ namespace CRM.Services
                     {
                         while (reader.Read())
                         {
-                            companies.Add(new Company
+                            if (reader.Depth == 0)
+                                continue;
+
+                            companiesExcelDTO.Add(new CompanyExcelDTO
                             {
                                 CompanyName = (string)reader.GetValue(0),
                                 INN = (string)reader.GetValue(1),
                                 KPP = (string)reader.GetValue(2),
                                 OGRN = (string)reader.GetValue(3),
-                                SupervisorFullName = (string)reader.GetValue(4),
+                                DirectorName = (string)reader.GetValue(4),
                                 SupervisorINNFL = (string)reader.GetValue(5),
-                                SupervisorJobTitle = (string)reader.GetValue(6),
+                                DirectorPost = (string)reader.GetValue(6),
                                 PhoneNumber = (string)reader.GetValue(7),
                                 ExtraPhoneNumber01 = (string)reader.GetValue(8),
                                 ExtraPhoneNumber02 = (string)reader.GetValue(9),
@@ -67,7 +76,7 @@ namespace CRM.Services
                                 ExtraPhoneNumber07 = (string)reader.GetValue(14),
                                 ExtraPhoneNumber08 = (string)reader.GetValue(15),
                                 ExtraPhoneNumber09 = (string)reader.GetValue(16),
-                                EmailAddress = (string)reader.GetValue(17),
+                                Email = (string)reader.GetValue(17),
                                 EmailAddress01 = (string)reader.GetValue(18),
                                 EmailAddress02 = (string)reader.GetValue(19),
                                 EmailAddress03 = (string)reader.GetValue(20),
@@ -77,11 +86,11 @@ namespace CRM.Services
                                 EmailAddress07 = (string)reader.GetValue(24),
                                 EmailAddress08 = (string)reader.GetValue(25),
                                 EmailAddress09 = (string)reader.GetValue(26),
-                                FullAddress = (string)reader.GetValue(27),
-                                SiteLink = (string)reader.GetValue(28),
+                                Address = (string)reader.GetValue(27),
+                                WebSite = (string)reader.GetValue(28),
                                 FocusLink = (string)reader.GetValue(29),
                                 CompanyStatus = (string)reader.GetValue(30),
-                                RegistrationDate = (DateTime)reader.GetValue(31),
+                                DateRegister = (DateTime?)reader.GetValue(31),
                                 MSPList = (string)reader.GetValue(32),
                                 Revenue = reader.GetValue(33) != null ? (double)reader.GetValue(33) : 0,
                                 Balance = reader.GetValue(34) != null ? (double)reader.GetValue(34) : 0,
@@ -92,7 +101,7 @@ namespace CRM.Services
                                 MainActivity = (string)reader.GetValue(39),
                                 ExtraActivity = (string)reader.GetValue(40),
                                 OKPD2 = (string)reader.GetValue(41),
-                                RegistrationRegion = (string)reader.GetValue(42),
+                                RegionRegister = (string)reader.GetValue(42),
                                 ObtainedLicenses = (string)reader.GetValue(43),
                                 Jobs = (string)reader.GetValue(44),
                                 LeasingSubject = (string)reader.GetValue(45),
@@ -108,15 +117,25 @@ namespace CRM.Services
                     }
                 }
 
-                _companyRepo.CreateCollection(companies);
+                if (companiesExcelDTO == null || companiesExcelDTO?.Count == 0)
+                {
+                    return new ExcelParseResponse
+                    {
+                        Result = false,
+                        StatusCode = ParseStatusCodeType.Unknown
+                    };
+                }
 
+                List<Company>? companies = _companyService.CreateEntities(companiesExcelDTO);
+                
+                await _companyRepo.CreateCollection(companies);
+                
                 return new ExcelParseResponse
                 {
                     Result = true,
                     StatusCode = ParseStatusCodeType.Success,
                     ParseResultMessage = ExcelParseMessage.ImportSuccess
                 };
-
             }
 
             catch (Exception e)
