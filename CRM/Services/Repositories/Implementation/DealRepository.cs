@@ -1,4 +1,5 @@
 ﻿using CRM.Data;
+using CRM.Jobs;
 using CRM.Model.Entities;
 
 namespace CRM.Services.Repositories.Implementation
@@ -33,6 +34,14 @@ namespace CRM.Services.Repositories.Implementation
         {
             _dbContext.AddRange(items);
             _dbContext.SaveChanges();
+        }
+        /// <summary>
+        /// Представляет реализацию метода чтения коллекции объектов типа <see cref="Deal"/> в БД
+        /// </summary>
+        /// <param name="items"></param>
+        public void ReadCollection(List<Deal> items)
+        {
+            _dbContext.Find<Deal>(items);
         }
     }
 }
