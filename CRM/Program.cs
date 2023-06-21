@@ -5,6 +5,7 @@ using CRM.Services;
 using CRM.Services.Repositories;
 using CRM.Services.Repositories.Implementation;
 using Microsoft.EntityFrameworkCore;
+using CRM.Model.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
 

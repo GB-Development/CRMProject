@@ -2,7 +2,7 @@
 
 namespace CRM.Services.Repositories
 {
-    public interface IDealRepository <T> : IRepository<Deal>
+    public interface IDealRepository : IRepository<Deal>
     {
         /// <summary>
         /// Представляет метод чтения коллекции объектов

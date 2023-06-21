@@ -1,6 +1,7 @@
 ﻿using CRM.Data;
 using CRM.Jobs;
 using CRM.Model.Entities;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace CRM.Services.Repositories.Implementation
 {
@@ -24,7 +25,7 @@ namespace CRM.Services.Repositories.Implementation
         /// <param name="item"></param>
         public void Create(Deal item)
         {
-
+            
         }
         /// <summary>
         /// Представляет реализацию метода создания и сохранения коллекции объектов типа <see cref="Deal"/> в БД
@@ -41,7 +42,7 @@ namespace CRM.Services.Repositories.Implementation
         /// <param name="items"></param>
         public void ReadCollection(List<Deal> items)
         {
-            _dbContext.Find<Deal>(items);
+            _dbContext.GetService<Deal>(items);
         }
     }
 }
