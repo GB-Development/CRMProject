@@ -1,6 +1,4 @@
-﻿using Abp.Domain.Repositories;
-using CRM.Model.Entities;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+﻿using CRM.Model.Entities;
 
 namespace CRM.Services.Repositories
 {
