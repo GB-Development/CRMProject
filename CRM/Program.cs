@@ -25,7 +25,7 @@ System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Inst
 
 builder.Services.AddScoped<IExcelService, ExcelService>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
-
+builder.Services.AddScoped<IDealRepository, DealRepository>();
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();

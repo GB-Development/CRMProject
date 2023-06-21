@@ -28,7 +28,8 @@ namespace CRM.Services.Repositories.Implementation
 
         public void CreateCollection(List<Deal> items)
         {
-            throw new NotImplementedException();
+            _dbContext.AddRange(items);
+            _dbContext.SaveChanges();
         }
     }
 }
