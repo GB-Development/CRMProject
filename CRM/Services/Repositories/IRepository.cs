@@ -16,6 +16,6 @@
         /// Представляет метод создания и сохранения коллекции объектов
         /// </summary>
         /// <param name="items"></param>
-        void CreateCollection(List<T> items);
+        Task CreateCollection(List<T> items);
     }
 }
