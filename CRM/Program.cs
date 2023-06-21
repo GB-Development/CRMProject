@@ -16,14 +16,15 @@ builder.Services.AddHangfire(config => config
  .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
  .UseSimpleAssemblyNameTypeSerializer()
  .UseRecommendedSerializerSettings()
- .UsePostgreSqlStorage(builder.Configuration.GetConnectionString("POSTGRESQL_CONNECTION_STRING")));
+ .UsePostgreSqlStorage(Environment.GetEnvironmentVariable("POSTGRESQL_CONNECTION_STRING")));
 
 builder.Services.AddHangfireServer();
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
-builder.Services.AddScoped<IExcelService, ExcelService>();
+
+//builder.Services.AddScoped<IExcelService, ExcelService>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IDealRepository, DealRepository>();
 builder.Services.AddControllers();

@@ -3,11 +3,10 @@
     "http": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "CrmJobsDashboard",
-      "applicationUrl": "http://localhost:5271",
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "POSTGRESQL_CONNECTION_STRING": "Server=localhost;Port=5432;Userid=postgres;Password=postgres;Pooling=false;Timeout=15;Database=CRMDb"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "http://localhost:5271"
@@ -16,10 +15,9 @@
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "CrmJobsDashboard",
-      "applicationUrl": "https://localhost:7255;http://localhost:5271",
-      "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "POSTGRESQL_CONNECTION_STRING": "Server=localhost;Port=5432;Userid=postgres;Password=postgres;Pooling=false;Timeout=15;Database=CRMDb"
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7255;http://localhost:5271"

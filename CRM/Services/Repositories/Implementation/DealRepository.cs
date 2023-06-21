@@ -25,7 +25,10 @@ namespace CRM.Services.Repositories.Implementation
         {
 
         }
-
+        /// <summary>
+        /// Представляет реализацию метода создания и сохранения коллекции объектов типа <see cref="Deal"/> в БД
+        /// </summary>
+        /// <param name="items"></param>
         public void CreateCollection(List<Deal> items)
         {
             _dbContext.AddRange(items);
