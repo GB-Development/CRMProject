@@ -1,14 +1,15 @@
 using CRM.Data;
 using Hangfire;
 using Hangfire.PostgreSql;
+using CRM.Services;
+using CRM.Services.Repositories;
+using CRM.Services.Repositories.Implementation;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnetion"));
+    options.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRESQL_CONNECTION_STRING"));
 });
 
 builder.Services.AddHangfire(config => config
@@ -19,8 +20,14 @@ builder.Services.AddHangfire(config => config
 
 builder.Services.AddHangfireServer();
 
+AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+builder.Services.AddScoped<IExcelService, ExcelService>();
+builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
