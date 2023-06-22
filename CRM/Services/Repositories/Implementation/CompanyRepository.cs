@@ -28,10 +28,10 @@ namespace CRM.Services.Repositories.Implementation
         /// Представляет реализацию метода создания и сохранения коллекции объектов типа <see cref="Company"/> в БД
         /// </summary>
         /// <param name="items"></param>
-        public void CreateCollection(List<Company> items)
+        public async Task CreateCollection(List<Company> items)
         {
             _dbContext.AddRange(items);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
