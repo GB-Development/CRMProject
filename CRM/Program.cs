@@ -6,6 +6,7 @@ using CRM.Services.Interfaces;
 using CRM.Services.Repositories;
 using CRM.Services.Repositories.Implementation;
 using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
