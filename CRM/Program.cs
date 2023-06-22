@@ -1,17 +1,26 @@
-using CRM.Data;
 using Hangfire;
 using Hangfire.PostgreSql;
+using CRM.Data;
 using CRM.Services;
+using CRM.Services.DTO;
+using CRM.Services.Entities;
+using CRM.Services.Interfaces;
 using CRM.Services.Repositories;
 using CRM.Services.Repositories.Implementation;
 using Microsoft.EntityFrameworkCore;
-using CRM.Model.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
+
+#region ApplicationDbContext
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
     options.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRESQL_CONNECTION_STRING"));
 });
+
+#endregion
+
+
+#region Hangfire Service
 
 builder.Services.AddHangfire(config => config
  .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
@@ -21,13 +30,25 @@ builder.Services.AddHangfire(config => config
 
 builder.Services.AddHangfireServer();
 
+#endregion
+
+
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 
 
-//builder.Services.AddScoped<IExcelService, ExcelService>();
+#region Services
+
+builder.Services.AddScoped<IExcelService, ExcelService>();
+builder.Services.AddScoped<ICompanyExcelDTOService, CompanyExcelDTOService>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
+builder.Services.AddScoped<IContactRepository, ContactRepository>();
 builder.Services.AddScoped<IDealRepository, DealRepository>();
+
+#endregion
+
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();

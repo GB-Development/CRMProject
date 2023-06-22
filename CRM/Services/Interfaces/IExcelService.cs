@@ -1,6 +1,6 @@
 ﻿using CRM.Services.Helpers.Excel;
 
-namespace CRM.Services
+namespace CRM.Services.Interfaces
 {
     /// <summary>
     /// Представляет интерфейс сервиса для работы с импортом файлов Excel
@@ -12,6 +12,6 @@ namespace CRM.Services
         /// </summary>
         /// <param name="file"></param>
         /// <returns></returns>
-        ExcelParseResponse ExcelParse(IFormFile file);
+        Task<ExcelParseResponse> ExcelParse(IFormFile file);
     }
 }

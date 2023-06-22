@@ -1,4 +1,7 @@
-﻿namespace CRM.Services.Helpers.Excel
+﻿using System.Data;
+using System.Reflection;
+
+namespace CRM.Services.Helpers.Excel
 {
     /// <summary>
     /// Представляет перечисление кодов статуса (результата) импорта файлов Excel
@@ -7,5 +10,6 @@
     {
         Fail,
         Success,
+        Unknown
     }
 }
