@@ -2,12 +2,11 @@
 
 namespace CRM.Services.Repositories
 {
+    /// <summary>
+    /// Представляет интерфейс репозитория для работы с объектами типа <see cref="Deal"/>
+    /// </summary>
     public interface IDealRepository : IRepository<Deal>
     {
-        /// <summary>
-        /// Представляет метод чтения коллекции объектов
-        /// </summary>
-        /// <param name="items"></param>
-        void ReadCollection(List<Deal> items);
+
     }
 }
