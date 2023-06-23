@@ -10,7 +10,7 @@ namespace CRM.Controllers
     [ApiController]
     public class HangfireController : ControllerBase
     {
-        private readonly IDealRepository<Deal> _dealRepository;
+        private readonly IDealRepository<Deal>? _dealRepository;
         /// <summary>
         /// Тестовый контроллер выполнения единичной задачи с применением Hangfire
         /// </summary>
@@ -51,7 +51,7 @@ namespace CRM.Controllers
 
             var serviceProvider = new FindOverdueTransactions(_dealRepository);
             RecurringJob.AddOrUpdate(() => serviceProvider.FindTransaction<List<Deal>>(), cron);
-
+            //для последующей рассылки serviceProvider оборачивается в EmailSendler c EmailManager и сообщением.
             return Ok();
         }
 
