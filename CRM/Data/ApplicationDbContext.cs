@@ -26,6 +26,11 @@ public class ApplicationDbContext : DbContext
         .IsUnique();
     }
 
+    internal void GetService<T>(List<Deal> items)
+    {
+        throw new NotImplementedException();
+    }
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
     : base(options)
     {
