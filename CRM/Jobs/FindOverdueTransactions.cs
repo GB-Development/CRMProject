@@ -15,7 +15,7 @@ namespace CRM.Jobs
         public List<Deal> FindTransaction<T>()
         {
             List<Deal> list = _dealRepository.ReadCollection();
-            var listNotification = list.Where(x => x.DateContact > DateTime.Now).ToList();
+            var listNotification = list.Where(x => x.DateContact < DateTime.Now).ToList();
             return listNotification;
         }
     }
