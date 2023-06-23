@@ -31,11 +31,13 @@ namespace CRM.Services.Repositories.Implementation
         /// Представляет реализацию метода создания и сохранения коллекции объектов типа <see cref="Deal"/> в БД
         /// </summary>
         /// <param name="items"></param>
-        public void CreateCollection(List<Deal> items)
+        public async Task CreateCollection(List<Deal> items)
         {
             _dbContext.AddRange(items);
-            _dbContext.SaveChanges();
+            await _dbContext.SaveChangesAsync();
         }
+
+
         /// <summary>
         /// Представляет реализацию метода чтения коллекции объектов типа <see cref="Deal"/> в БД
         /// </summary>

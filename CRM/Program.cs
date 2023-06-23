@@ -1,4 +1,5 @@
 using CRM.Data;
+using CRM.Model.Entities;
 using CRM.Services;
 using CRM.Services.DTO;
 using CRM.Services.Entities;
@@ -41,7 +42,7 @@ builder.Services.AddScoped<ICompanyExcelDTOService, CompanyExcelDTOService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
-builder.Services.AddScoped<IDealRepository, DealRepository>();
+builder.Services.AddScoped<IDealRepository<Deal>, DealRepository>();
 
 #endregion
 
