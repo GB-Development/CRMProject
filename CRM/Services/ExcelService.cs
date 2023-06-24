@@ -128,7 +128,7 @@ namespace CRM.Services
 
                 List<Company>? companies = _companyService.CreateEntities(companiesExcelDTO);
                 
-                await _companyRepo.CreateCollection(companies);
+                await _companyRepo.CreateCollectionAsync(companies);
                 
                 return new ExcelParseResponse
                 {

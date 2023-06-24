@@ -29,10 +29,30 @@ namespace CRM.Services.Repositories.Implementation
         /// 
         /// </summary>
         /// <param name="items"></param>
-        public async Task CreateCollection(List<Deal> items)
+        public async Task CreateCollectionAsync(List<Deal> items)
         {
             _dbContext.AddRange(items);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public bool Delete(Deal item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Deal Get(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Deal> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Deal Update(Deal item)
+        {
+            throw new NotImplementedException();
         }
     }
 }

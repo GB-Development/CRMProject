@@ -28,10 +28,30 @@ namespace CRM.Services.Repositories.Implementation
         /// Представляет реализацию метода создания и сохранения коллекции объектов типа <see cref="Company"/> в БД
         /// </summary>
         /// <param name="items"></param>
-        public async Task CreateCollection(List<Company> items)
+        public async Task CreateCollectionAsync(List<Company> items)
         {
             _dbContext.AddRange(items);
             await _dbContext.SaveChangesAsync();
+        }
+
+        public bool Delete(Company item)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Company Get(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public List<Company> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Company Update(Company item)
+        {
+            throw new NotImplementedException();
         }
     }
 }
