@@ -10,5 +10,6 @@ public class MapperProfiler : Profile
     {
         CreateMap<Company, CreateComponyRequest>();
         CreateMap<Company, DeleteComponyRequest>();
+        CreateMap<Company, UpdateComponyRequest>();
     }
 }

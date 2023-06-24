@@ -93,8 +93,37 @@ public class CompanyController : ControllerBase
 
     public ActionResult<UpdateComponyResponse> Update(UpdateComponyRequest request)
     {
-        var response = new UpdateComponyResponse();
-        return Ok(response);
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return Ok(new UpdateComponyResponse
+                {
+                    Result = _mapper.Map<Company>(request),
+                    StatusCode = 1001,
+                    ErrorMessage = $"Данные не прошли валидацию! ({string.Join(',', ModelState.Values)})"
+                });
+            }
+
+            var result = _companyRepository.Update(request.Company);
+
+            return Ok(new UpdateComponyResponse
+            {
+                Result = result,
+                StatusCode = 400,
+                ErrorMessage = null
+            });
+
+        }
+        catch (Exception ex)
+        {
+            return Ok(new UpdateComponyResponse
+            {
+                Result = null,
+                StatusCode = 1001,
+                ErrorMessage = ex.Message
+            });
+        }
     }
 
     public ActionResult<DeleteComponyResponse> Delete(DeleteComponyRequest request)
