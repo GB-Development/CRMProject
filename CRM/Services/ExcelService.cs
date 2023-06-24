@@ -1,5 +1,5 @@
 ﻿using CRM.Data.Entities;
-using CRM.Model.DTO;
+using CRM.Models.DTO;
 using CRM.Services.Helpers.Excel;
 using CRM.Services.Interfaces;
 using CRM.Services.Repositories;

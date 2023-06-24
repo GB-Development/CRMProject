@@ -12,7 +12,7 @@
         /// Представляет метод создания и сохранения одиночного объекта
         /// </summary>
         /// <param name="item"></param>
-        void Create(TEntity item);
+        TKey Create(TEntity item);
 
         /// <summary>
         /// Представляет метод создания и сохранения коллекции объектов

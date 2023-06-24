@@ -1,4 +1,4 @@
-﻿namespace CRM.Model.DTO
+﻿namespace CRM.Models.DTO
 {
     /// <summary>
     /// Представляет класс, описывающий сущность DTO, формируемую при импорте файла Excel

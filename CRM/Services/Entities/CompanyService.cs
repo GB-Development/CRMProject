@@ -1,6 +1,6 @@
-﻿using CRM.Model.DTO;
-using CRM.Data.Entities;
+﻿using CRM.Data.Entities;
 using CRM.Services.Interfaces;
+using CRM.Models.DTO;
 
 namespace CRM.Services.Entities
 {
