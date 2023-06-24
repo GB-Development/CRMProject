@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace CRM.Model.Entities
+namespace CRM.Data.Entities
 {
     /// <summary>
     /// Представляет класс, описывающий сущность "Сделка"

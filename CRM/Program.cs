@@ -8,13 +8,9 @@ using CRM.Services.Repositories.Implementation;
 using Hangfire;
 using Hangfire.PostgreSql;
 using Microsoft.EntityFrameworkCore;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
-//JSON Serializer
-builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
-options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore)
-    .AddNewtonsoftJson(options => options.SerializerSettings.ContractResolver = new DefaultContractResolver());
 
 #region ApplicationDbContext
 
@@ -25,7 +21,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => {
 #endregion
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
 #region Hangfire Service
 

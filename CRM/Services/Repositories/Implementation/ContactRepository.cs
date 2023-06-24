@@ -1,5 +1,5 @@
 ﻿using CRM.Data;
-using CRM.Model.Entities;
+using CRM.Data.Entities;
 
 namespace CRM.Services.Repositories.Implementation
 {

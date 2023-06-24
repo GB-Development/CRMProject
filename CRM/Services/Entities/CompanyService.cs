@@ -1,5 +1,5 @@
 ﻿using CRM.Model.DTO;
-using CRM.Model.Entities;
+using CRM.Data.Entities;
 using CRM.Services.Interfaces;
 
 namespace CRM.Services.Entities

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.Controllers
 {
-    public class ExcelController : Controller
+    public class ExcelController : ControllerBase
     {
         private readonly IExcelService _excelService;
 
