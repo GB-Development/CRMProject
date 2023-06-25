@@ -1,4 +1,6 @@
+using AutoMapper;
 using CRM.Data;
+using CRM.Mapper;
 using CRM.Services;
 using CRM.Services.DTO;
 using CRM.Services.Entities;
@@ -11,6 +13,14 @@ using Microsoft.EntityFrameworkCore;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+
+#region Configure Automapper
+
+var mapperConfiguration = new MapperConfiguration(mapper => mapper.AddProfile(new MapperProfiler()));
+var mapper = mapperConfiguration.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
+#endregion
 
 #region ApplicationDbContext
 

@@ -20,9 +20,9 @@ namespace CRM.Services.Repositories.Implementation
         /// 
         /// </summary>
         /// <param name="item"></param>
-        public void Create(Deal item)
+        public int Create(Deal item)
         {
-
+            throw new NotImplementedException();
         }
 
         /// <summary>

@@ -22,7 +22,10 @@ public class CompanyController : ControllerBase
         _mapper = mapper;
     }
 
-    public ActionResult<CreateComponyResponse> Create(CreateComponyRequest request)
+    [   HttpPost("create"), 
+        ProducesResponseType(typeof(CreateComponyResponse), 
+        StatusCodes.Status200OK)]
+    public ActionResult<CreateComponyResponse> Create([FromQuery] CreateComponyRequest request)
     {
         try
         {
@@ -41,7 +44,7 @@ public class CompanyController : ControllerBase
             return Ok(new CreateComponyResponse
             {
                 Result = true,
-                StatusCode = 400,
+                StatusCode = 200,
                 ErrorMessage = null
             });
         }
@@ -56,7 +59,10 @@ public class CompanyController : ControllerBase
         }
     }
 
-    public ActionResult<GetComponyResponse> Get(GetComponyRequest request)
+    [   HttpGet("get"),
+        ProducesResponseType(typeof(GetComponyResponse),
+        StatusCodes.Status200OK)]
+    public ActionResult<GetComponyResponse> Get([FromQuery] GetComponyRequest request)
     {
         try
         {
@@ -91,7 +97,10 @@ public class CompanyController : ControllerBase
         }
     }
 
-    public ActionResult<UpdateComponyResponse> Update(UpdateComponyRequest request)
+    [   HttpPut("update"),
+        ProducesResponseType(typeof(UpdateComponyResponse),
+        StatusCodes.Status200OK)]
+    public ActionResult<UpdateComponyResponse> Update([FromQuery] UpdateComponyRequest request)
     {
         try
         {
@@ -110,7 +119,7 @@ public class CompanyController : ControllerBase
             return Ok(new UpdateComponyResponse
             {
                 Result = result,
-                StatusCode = 400,
+                StatusCode = 200,
                 ErrorMessage = null
             });
 
@@ -126,7 +135,10 @@ public class CompanyController : ControllerBase
         }
     }
 
-    public ActionResult<DeleteComponyResponse> Delete(DeleteComponyRequest request)
+    [   HttpDelete("delete"),
+        ProducesResponseType(typeof(DeleteComponyResponse),
+        StatusCodes.Status200OK)]
+    public ActionResult<DeleteComponyResponse> Delete([FromQuery] DeleteComponyRequest request)
     {
         try
         {
@@ -145,7 +157,7 @@ public class CompanyController : ControllerBase
             return Ok(new DeleteComponyResponse
             {
                 Result = result,
-                StatusCode = 400,
+                StatusCode = 200,
                 ErrorMessage = null
             }); 
         }

@@ -22,7 +22,10 @@ namespace CRM.Services.Repositories.Implementation
         /// Представляет реализацию метода создания и сохранения одиночного объекта типа <see cref="Company"/> в БД
         /// </summary>
         /// <param name="item"></param>
-        public void Create(Company item) { }
+        public int Create(Company item)
+        {
+            throw new NotImplementedException();
+        }
 
         /// <summary>
         /// Представляет реализацию метода создания и сохранения коллекции объектов типа <see cref="Company"/> в БД
