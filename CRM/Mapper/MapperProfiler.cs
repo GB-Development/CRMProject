@@ -8,8 +8,8 @@ public class MapperProfiler : Profile
 {
     public MapperProfiler()
     {
-        CreateMap<Company, CreateComponyRequest>();
-        CreateMap<Company, DeleteComponyRequest>();
-        CreateMap<Company, UpdateComponyRequest>();
+        CreateMap<CreateComponyRequest, Company>();
+        CreateMap<DeleteComponyRequest, Company>();
+        CreateMap<UpdateComponyRequest, Company>();
     }
 }

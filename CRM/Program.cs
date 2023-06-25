@@ -10,7 +10,9 @@ using CRM.Services.Repositories.Implementation;
 using Hangfire;
 using Hangfire.PostgreSql;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Metrics;
 using System.Text;
+using static Castle.MicroKernel.ModelBuilder.Descriptors.InterceptorDescriptor;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -61,24 +63,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -86,6 +70,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+{
+    var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+    context.Database.Migrate();
 }
 
 app.UseHttpsRedirection();

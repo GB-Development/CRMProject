@@ -44,7 +44,7 @@ namespace CRM.Services.Repositories.Implementation
 
         public Company Get(int id)
         {
-            throw new NotImplementedException();
+            return new Company { CompanyId = id };
         }
 
         public List<Company> GetAll()
