@@ -1,5 +1,8 @@
 ﻿using CRM.Data;
 using CRM.Data.Entities;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Dynamic.Core;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace CRM.Services.Repositories.Implementation
 {
@@ -22,9 +25,14 @@ namespace CRM.Services.Repositories.Implementation
         /// Представляет реализацию метода создания и сохранения одиночного объекта типа <see cref="Company"/> в БД
         /// </summary>
         /// <param name="item"></param>
-        public int Create(Company item)
+        /// <returns>Возращает ID сущности в БД</returns>
+        public async Task<int> CreateAsync(Company item)
         {
-            throw new NotImplementedException();
+            var entity = _dbContext.Companies.Add(item);
+
+            await _dbContext.SaveChangesAsync();
+
+            return entity.Entity.CompanyId;
         }
 
         /// <summary>
@@ -37,24 +45,65 @@ namespace CRM.Services.Repositories.Implementation
             await _dbContext.SaveChangesAsync();
         }
 
-        public bool Delete(Company item)
+        /// <summary>
+        /// Представляет реализацию метода удаления одиночного объекта типа <see cref="Company"/> в БД
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns>Возращает статус выполнение метода типа bool</returns>
+        public async Task<bool> DeleteAsync(Company item)
         {
-            throw new NotImplementedException();
+            Company company = await GetByIdAsync(item.CompanyId);
+
+            if (company != null)
+            {
+                _dbContext.Companies.Remove(company);
+                await _dbContext.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
         }
 
-        public Company Get(int id)
+        /// <summary>
+        /// Представляет реализацию метода получение одиночного объекта типа <see cref="Company"/> из БД
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns>Возращает сущность из БД типа <see cref="Company"/></returns>
+        public async Task<Company?> GetByIdAsync(int id)
         {
-            return new Company { CompanyId = id };
+            return await _dbContext.Companies.FirstOrDefaultAsync(x => x.CompanyId == id);
         }
 
-        public List<Company> GetAll()
+        /// <summary>
+        /// Представляет реализацию метода получение коллекции объектов типа <see cref="Company"/> из БД
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns>Возращает сущности из БД </returns>
+        public async Task<List<Company>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Companies.ToListAsync();
         }
 
-        public Company Update(Company item)
+        /// <summary>
+        /// Представляет реализацию метода обновление одиночного объекта типа <see cref="Company"/> в БД
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns>Возращает статус выполнение метода типа bool</returns>
+        public async Task<bool> UpdateAsync(Company item)
         {
-            throw new NotImplementedException();
+            Company company = await GetByIdAsync(item.CompanyId);
+
+            if (company != null)
+            {
+                company = item;
+
+                var result = await _dbContext.SaveChangesAsync();
+
+                return result > 0 ? true : false;
+            }
+
+            return false;
         }
     }
 }

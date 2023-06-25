@@ -12,7 +12,7 @@
         /// Представляет метод создания и сохранения одиночного объекта
         /// </summary>
         /// <param name="item"></param>
-        TKey Create(TEntity item);
+        Task<TKey> CreateAsync(TEntity item);
 
         /// <summary>
         /// Представляет метод создания и сохранения коллекции объектов
@@ -25,26 +25,26 @@
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        TEntity Get(TKey id);
+        Task<TEntity?> GetByIdAsync(TKey id);
 
         /// <summary>
         /// Представляет метод получении колекции объектов из БД
         /// </summary>
         /// <returns></returns>
-        List<TEntity> GetAll();
+        Task<List<TEntity>> GetAllAsync();
 
         /// <summary>
         /// Представляет метод обновления объекта в БД
         /// </summary>
         /// <param name="item"></param>
         /// <returns>Возращает обновленный объект</returns>
-        TEntity Update(TEntity item);
+        Task<bool> UpdateAsync(TEntity item);
 
         /// <summary>
         /// Представляет метод удаления объекта из БД
         /// </summary>
         /// <param name="item"></param>
         /// <returns></returns>
-        bool Delete(TEntity item);
+        Task<bool> DeleteAsync(TEntity item);
     }
 }

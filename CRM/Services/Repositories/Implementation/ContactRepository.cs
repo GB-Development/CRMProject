@@ -16,11 +16,7 @@ namespace CRM.Services.Repositories.Implementation
             _dbContext = dbContext;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="item"></param>
-        public int Create(Contact item)
+        public Task<int> CreateAsync(Contact item)
         {
             throw new NotImplementedException();
         }
@@ -35,22 +31,22 @@ namespace CRM.Services.Repositories.Implementation
             await _dbContext.SaveChangesAsync();
         }
 
-        public bool Delete(Contact item)
+        public Task<bool> DeleteAsync(Contact item)
         {
             throw new NotImplementedException();
         }
 
-        public Contact Get(int id)
+        public Task<List<Contact>> GetAllAsync()
         {
             throw new NotImplementedException();
         }
 
-        public List<Contact> GetAll()
+        public Task<Contact?> GetByIdAsync(int id)
         {
             throw new NotImplementedException();
         }
 
-        public Contact Update(Contact item)
+        public Task<bool> UpdateAsync(Contact item)
         {
             throw new NotImplementedException();
         }

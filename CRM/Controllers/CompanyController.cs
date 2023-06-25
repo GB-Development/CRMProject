@@ -25,7 +25,7 @@ public class CompanyController : ControllerBase
     [   HttpPost("create"), 
         ProducesResponseType(typeof(CreateComponyResponse), 
         StatusCodes.Status200OK)]
-    public ActionResult<CreateComponyResponse> Create([FromQuery] CreateComponyRequest request)
+    public async Task<ActionResult<CreateComponyResponse>> CreateAsync([FromQuery] CreateComponyRequest request)
     {
         try
         {
@@ -39,7 +39,7 @@ public class CompanyController : ControllerBase
                 });
             }
 
-            var result = _companyRepository.Create(_mapper.Map<Company>(request));
+            var result = await _companyRepository.CreateAsync(_mapper.Map<Company>(request));
 
             return Ok(new CreateComponyResponse
             {
@@ -62,7 +62,7 @@ public class CompanyController : ControllerBase
     [   HttpGet("get"),
         ProducesResponseType(typeof(GetComponyResponse),
         StatusCodes.Status200OK)]
-    public ActionResult<GetComponyResponse> Get([FromQuery] GetComponyRequest request)
+    public async Task<ActionResult<GetComponyResponse>> GetAsync([FromQuery] GetComponyRequest request)
     {
         try
         {
@@ -76,7 +76,7 @@ public class CompanyController : ControllerBase
                 });
             }
 
-            var result = _companyRepository.Get(request.CompanyId);
+            var result = await _companyRepository.GetByIdAsync(request.CompanyId);
 
 
             return Ok(new GetComponyResponse
@@ -100,7 +100,7 @@ public class CompanyController : ControllerBase
     [   HttpPut("update"),
         ProducesResponseType(typeof(UpdateComponyResponse),
         StatusCodes.Status200OK)]
-    public ActionResult<UpdateComponyResponse> Update([FromQuery] UpdateComponyRequest request)
+    public async Task<ActionResult<UpdateComponyResponse>> UpdateAsync([FromQuery] UpdateComponyRequest request)
     {
         try
         {
@@ -108,13 +108,13 @@ public class CompanyController : ControllerBase
             {
                 return Ok(new UpdateComponyResponse
                 {
-                    Result = _mapper.Map<Company>(request),
+                    Result = false,
                     StatusCode = 1001,
                     ErrorMessage = $"Данные не прошли валидацию! ({string.Join(',', ModelState.Values)})"
                 });
             }
 
-            var result = _companyRepository.Update(request.Company);
+            var result = await _companyRepository.UpdateAsync(request.Company);
 
             return Ok(new UpdateComponyResponse
             {
@@ -128,7 +128,7 @@ public class CompanyController : ControllerBase
         {
             return Ok(new UpdateComponyResponse
             {
-                Result = null,
+                Result = false,
                 StatusCode = 1001,
                 ErrorMessage = ex.Message
             });
@@ -138,7 +138,7 @@ public class CompanyController : ControllerBase
     [   HttpDelete("delete"),
         ProducesResponseType(typeof(DeleteComponyResponse),
         StatusCodes.Status200OK)]
-    public ActionResult<DeleteComponyResponse> Delete([FromQuery] DeleteComponyRequest request)
+    public async Task<ActionResult<DeleteComponyResponse>> DeleteAsync([FromQuery] DeleteComponyRequest request)
     {
         try
         {
@@ -152,7 +152,7 @@ public class CompanyController : ControllerBase
                 });
             }
 
-            var result = _companyRepository.Delete(_mapper.Map<Company>(request));
+            var result = await _companyRepository.DeleteAsync(_mapper.Map<Company>(request));
 
             return Ok(new DeleteComponyResponse
             {
