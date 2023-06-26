@@ -1,4 +1,4 @@
-﻿using CRM.Model.Entities;
+﻿using CRM.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace CRM.Data;

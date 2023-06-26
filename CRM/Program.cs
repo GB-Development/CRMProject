@@ -1,4 +1,6 @@
+using AutoMapper;
 using CRM.Data;
+using CRM.Mapper;
 using CRM.Services;
 using CRM.Services.DTO;
 using CRM.Services.Entities;
@@ -8,8 +10,19 @@ using CRM.Services.Repositories.Implementation;
 using Hangfire;
 using Hangfire.PostgreSql;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Metrics;
+using System.Text;
+using static Castle.MicroKernel.ModelBuilder.Descriptors.InterceptorDescriptor;
 
 var builder = WebApplication.CreateBuilder(args);
+
+#region Configure Automapper
+
+var mapperConfiguration = new MapperConfiguration(mapper => mapper.AddProfile(new MapperProfiler()));
+var mapper = mapperConfiguration.CreateMapper();
+builder.Services.AddSingleton(mapper);
+
+#endregion
 
 #region ApplicationDbContext
 
@@ -20,7 +33,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => {
 #endregion
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
-System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
 #region Hangfire Service
 
@@ -50,24 +63,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -75,6 +70,12 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+}
+
+using (var serviceScope = app.Services.GetRequiredService<IServiceScopeFactory>().CreateScope())
+{
+    var context = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+    context.Database.Migrate();
 }
 
 app.UseHttpsRedirection();

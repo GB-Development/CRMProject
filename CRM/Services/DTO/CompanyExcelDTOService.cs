@@ -1,4 +1,4 @@
-﻿using CRM.Model.DTO;
+﻿using CRM.Models.DTO;
 using CRM.Services.Interfaces;
 
 namespace CRM.Services.DTO

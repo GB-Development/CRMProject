@@ -1,5 +1,5 @@
-﻿using CRM.Model.DTO;
-using CRM.Model.Entities;
+﻿using CRM.Data.Entities;
+using CRM.Models.DTO;
 using CRM.Services.Helpers.Excel;
 using CRM.Services.Interfaces;
 using CRM.Services.Repositories;
@@ -128,7 +128,7 @@ namespace CRM.Services
 
                 List<Company>? companies = _companyService.CreateEntities(companiesExcelDTO);
                 
-                await _companyRepo.CreateCollection(companies);
+                await _companyRepo.CreateCollectionAsync(companies);
                 
                 return new ExcelParseResponse
                 {

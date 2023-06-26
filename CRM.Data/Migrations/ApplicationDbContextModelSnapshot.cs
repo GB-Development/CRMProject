@@ -22,7 +22,7 @@ namespace CRM.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CRM.Model.Entities.Company", b =>
+            modelBuilder.Entity("CRM.Data.Entities.Company", b =>
                 {
                     b.Property<int>("CompanyId")
                         .ValueGeneratedOnAdd()
@@ -76,7 +76,7 @@ namespace CRM.Migrations
                     b.ToTable("Company");
                 });
 
-            modelBuilder.Entity("CRM.Model.Entities.Contact", b =>
+            modelBuilder.Entity("CRM.Data.Entities.Contact", b =>
                 {
                     b.Property<int>("ContactId")
                         .ValueGeneratedOnAdd()
@@ -109,7 +109,7 @@ namespace CRM.Migrations
                     b.ToTable("Contact");
                 });
 
-            modelBuilder.Entity("CRM.Model.Entities.Deal", b =>
+            modelBuilder.Entity("CRM.Data.Entities.Deal", b =>
                 {
                     b.Property<int>("DealId")
                         .ValueGeneratedOnAdd()
@@ -133,23 +133,23 @@ namespace CRM.Migrations
                     b.ToTable("Deal");
                 });
 
-            modelBuilder.Entity("CRM.Model.Entities.Contact", b =>
+            modelBuilder.Entity("CRM.Data.Entities.Contact", b =>
                 {
-                    b.HasOne("CRM.Model.Entities.Company", null)
+                    b.HasOne("CRM.Data.Entities.Company", null)
                         .WithMany("Contacts")
                         .HasForeignKey("CompanyId");
                 });
 
-            modelBuilder.Entity("CRM.Model.Entities.Deal", b =>
+            modelBuilder.Entity("CRM.Data.Entities.Deal", b =>
                 {
-                    b.HasOne("CRM.Model.Entities.Company", "Company")
+                    b.HasOne("CRM.Data.Entities.Company", "Company")
                         .WithMany()
                         .HasForeignKey("CompanyId");
 
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("CRM.Model.Entities.Company", b =>
+            modelBuilder.Entity("CRM.Data.Entities.Company", b =>
                 {
                     b.Navigation("Contacts");
                 });
