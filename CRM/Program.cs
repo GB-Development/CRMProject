@@ -6,6 +6,8 @@ using CRM.Services.Entities;
 using CRM.Services.Interfaces;
 using CRM.Services.Repositories;
 using CRM.Services.Repositories.Implementation;
+using Hangfire;
+using Hangfire.PostgreSql;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,6 +23,18 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => {
 
 AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
+
+#region Hangfire Service
+
+builder.Services.AddHangfire(config => config
+ .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+ .UseSimpleAssemblyNameTypeSerializer()
+ .UseRecommendedSerializerSettings()
+ .UsePostgreSqlStorage(Environment.GetEnvironmentVariable("POSTGRESQL_CONNECTION_STRING")));
+
+builder.Services.AddHangfireServer();
+
+#endregion
 
 #region Services
 
@@ -69,6 +83,11 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+app.UseRouting();
+
+app.UseHangfireDashboard("/CrmJobsDashboard");
+app.UseEndpoints(e => e.MapHangfireDashboard());
 
 app.MapControllers();
 
