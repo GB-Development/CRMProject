@@ -1,5 +1,6 @@
 ﻿using CRM.Data;
 using CRM.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRM.Services.Repositories.Implementation
 {
@@ -8,7 +9,7 @@ namespace CRM.Services.Repositories.Implementation
         private readonly ApplicationDbContext _dbContext;
 
         /// <summary>
-        /// 
+        /// Инициализирует новый экземпляр класса <see cref="DealRepository"/>
         /// </summary>
         /// <param name="dbContext"></param>
         public DealRepository(ApplicationDbContext dbContext)
@@ -16,13 +17,22 @@ namespace CRM.Services.Repositories.Implementation
             _dbContext = dbContext;
         }
 
-        public Task<int> CreateAsync(Deal item)
+        /// <summary>
+        /// Представляет реализацию метода создания и сохранения одиночного объекта типа <see cref="Deal"/> в БД
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns>Возращает ID сущности в БД</returns>
+        public async Task<int> CreateAsync(Deal item)
         {
-            throw new NotImplementedException();
+            var entity = _dbContext.Deals.Add(item);
+
+            await _dbContext.SaveChangesAsync();
+
+            return entity.Entity.DealId;
         }
 
         /// <summary>
-        /// 
+        /// Представляет реализацию метода создания и сохранения коллекции объектов типа <see cref="Deal"/> в БД
         /// </summary>
         /// <param name="items"></param>
         public async Task CreateCollectionAsync(List<Deal> items)
@@ -31,24 +41,63 @@ namespace CRM.Services.Repositories.Implementation
             await _dbContext.SaveChangesAsync();
         }
 
-        public Task<bool> DeleteAsync(Deal item)
+        /// <summary>
+        /// Представляет реализацию метода удаления одиночного объекта типа <see cref="Deal"/> в БД
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns>Возращает статус выполнение метода типа bool</returns>
+        public async Task<bool> DeleteAsync(Deal item)
         {
-            throw new NotImplementedException();
+            Deal deal = await GetByIdAsync(item.DealId);
+
+            if (deal != null)
+            {
+                _dbContext.Deals.Remove(deal);
+                await _dbContext.SaveChangesAsync();
+
+                return true;
+            }
+
+            return false;
         }
 
-        public Task<List<Deal>> GetAllAsync()
+        /// <summary>
+        /// Представляет реализацию метода получение коллекции объектов типа <see cref="Deal"/> из БД
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns>Возращает сущности из БД </returns>
+        public async Task<List<Deal>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _dbContext.Deals.ToListAsync();
         }
 
-        public Task<Deal?> GetByIdAsync(int id)
+        /// <summary>
+        /// Представляет реализацию метода получение одиночного объекта типа <see cref="Deal"/> из БД
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns>Возращает сущность из БД типа <see cref="Deal"/></returns>
+        public async Task<Deal?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _dbContext.Deals.FirstOrDefaultAsync(x => x.DealId == id);
         }
 
-        public Task<bool> UpdateAsync(Deal item)
+        /// <summary>
+        /// Представляет реализацию метода обновление одиночного объекта типа <see cref="Deal"/> в БД
+        /// </summary>
+        /// <param name="item"></param>
+        /// <returns>Возращает статус выполнение метода типа bool</returns>
+        public async Task<bool> UpdateAsync(Deal item)
         {
-            throw new NotImplementedException();
+            if (item != null)
+            {
+                _dbContext.Deals.Update(item);
+
+                var result = await _dbContext.SaveChangesAsync();
+
+                return result > 0 ? true : false;
+            }
+
+            return false;
         }
     }
 }
