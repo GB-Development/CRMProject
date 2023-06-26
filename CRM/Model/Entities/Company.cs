@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CRM.Model.Entities
@@ -7,6 +8,7 @@ namespace CRM.Model.Entities
     /// Представляет класс, описывающий сущность "Компания"
     /// </summary>
     [Table("Company")]
+    [Index(nameof(INN), IsUnique = true)]
     public class Company
     {
         /// <summary>

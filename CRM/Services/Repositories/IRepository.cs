@@ -6,16 +6,10 @@
     /// <typeparam name="T"></typeparam>
     public interface IRepository<T> where T : class
     {
-        /// <summary>
-        /// Представляет метод создания и сохранения одиночного объекта
-        /// </summary>
-        /// <param name="item"></param>
-        void Create(T item);
+        Task CreateAsync(T item);
 
-        /// <summary>
-        /// Представляет метод создания и сохранения коллекции объектов
-        /// </summary>
-        /// <param name="items"></param>
-        Task CreateCollection(List<T> items);
+        Task UpdateAsync(T item);
+
+        Task DeleteAsync(T item);
     }
 }

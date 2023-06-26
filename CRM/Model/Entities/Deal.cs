@@ -15,6 +15,8 @@ namespace CRM.Model.Entities
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int DealId { get; set; }
 
+        public string ManagerId { get; set; }
+
         /// <summary>
         /// Получает или задает ИД компании
         /// </summary>

@@ -1,33 +1,64 @@
-﻿using CRM.Data;
+﻿using AutoMapper;
+using CRM.Controllers;
+using CRM.Data;
+using CRM.Model.DTO;
 using CRM.Model.Entities;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 
 namespace CRM.Services.Repositories.Implementation
 {
-    /// <summary>
-    /// Представляет реализацию репозитория для работы с объектами типа  <see cref="Company"/>
-    /// </summary>
     public class CompanyRepository : ICompanyRepository
     {
         private readonly ApplicationDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        /// <summary>
-        /// Инициализирует новый экземпляр класса <see cref="CompanyRepository"/>
-        /// </summary>
-        public CompanyRepository(ApplicationDbContext dbContext)
+        public CompanyRepository(ApplicationDbContext dbContext,
+            IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
-        /// <summary>
-        /// Представляет реализацию метода создания и сохранения одиночного объекта типа <see cref="Company"/> в БД
-        /// </summary>
-        /// <param name="item"></param>
-        public void Create(Company item) { }
+        public async Task CreateAsync(Company item)
+        {
+            await _dbContext.Companies.AddAsync(item);
+            await _dbContext.SaveChangesAsync();
+        }
 
-        /// <summary>
-        /// Представляет реализацию метода создания и сохранения коллекции объектов типа <see cref="Company"/> в БД
-        /// </summary>
-        /// <param name="items"></param>
+        public async Task DeleteAsync(Company item)
+        {
+            var a = await _dbContext.Companies.FirstOrDefaultAsync(x => x.CompanyId == item.CompanyId);
+
+            if (a == null)
+                return;
+
+            _dbContext.Companies.Remove(a);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<Company?> GetByIDAsync(int id)
+        {
+            var a = await _dbContext.Companies.Include(y => y.Contacts).FirstOrDefaultAsync(x => x.CompanyId == id);
+            return a;
+        }
+
+        public async Task<List<Company>> GetAllAsync()
+        {
+            return await _dbContext.Companies.Include(y => y.Contacts).ToListAsync();
+        }
+
+        public async Task UpdateAsync(Company item)
+        {
+            var a = await _dbContext.Companies.FirstOrDefaultAsync(x => x.CompanyId == item.CompanyId);
+
+            if (a == null)
+                return;
+
+            _dbContext.Companies.Update(item);
+            await _dbContext.SaveChangesAsync();
+
+        }
         public async Task CreateCollection(List<Company> items)
         {
             _dbContext.AddRange(items);

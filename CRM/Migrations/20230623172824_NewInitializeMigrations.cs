@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CRM.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateEntities : Migration
+    public partial class NewInitializeMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -45,7 +45,7 @@ namespace CRM.Migrations
                     PhoneNumber = table.Column<string>(type: "text", nullable: true),
                     Email = table.Column<string>(type: "text", nullable: true),
                     Address = table.Column<string>(type: "text", nullable: true),
-                    CompanyId = table.Column<int>(type: "integer", nullable: true)
+                    CompanyId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -54,7 +54,8 @@ namespace CRM.Migrations
                         name: "FK_Contact_Company_CompanyId",
                         column: x => x.CompanyId,
                         principalTable: "Company",
-                        principalColumn: "CompanyId");
+                        principalColumn: "CompanyId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -78,12 +79,6 @@ namespace CRM.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Company_CompanyName",
-                table: "Company",
-                column: "CompanyName",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Company_INN",
                 table: "Company",
                 column: "INN",
@@ -93,12 +88,6 @@ namespace CRM.Migrations
                 name: "IX_Contact_CompanyId",
                 table: "Contact",
                 column: "CompanyId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Contact_FullName",
-                table: "Contact",
-                column: "FullName",
-                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Deal_CompanyId",

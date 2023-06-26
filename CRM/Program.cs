@@ -1,3 +1,4 @@
+using CRM;
 using CRM.Data;
 using CRM.Services;
 using CRM.Services.DTO;
@@ -12,7 +13,8 @@ var builder = WebApplication.CreateBuilder(args);
 #region ApplicationDbContext
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
-    options.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRESQL_CONNECTION_STRING"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    //options.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRESQL_CONNECTION_STRING"));
 });
 
 #endregion
@@ -22,6 +24,7 @@ System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Inst
 
 #region Services
 
+builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddScoped<IExcelService, ExcelService>();
 builder.Services.AddScoped<ICompanyExcelDTOService, CompanyExcelDTOService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();

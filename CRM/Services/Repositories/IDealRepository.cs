@@ -7,6 +7,8 @@ namespace CRM.Services.Repositories
     /// </summary>
     public interface IDealRepository : IRepository<Deal>
     {
-
+        Task<List<Deal>> GetAllAsync();
+        Task<Deal> GetByIdAsync(int id);
+        Task<List<Deal>> GetAllByIdManagerAsync(string id);
     }
 }
