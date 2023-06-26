@@ -2,6 +2,7 @@
 
 namespace CRM.Models.DTO.Company.Responses;
 
-public class CreateComponyResponse : AbstractResponse<bool>
+public class UpdateCompanyResponse : AbstractResponse<bool>
 {
+    
 }

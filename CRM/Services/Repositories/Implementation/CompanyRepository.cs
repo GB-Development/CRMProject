@@ -92,11 +92,9 @@ namespace CRM.Services.Repositories.Implementation
         /// <returns>Возращает статус выполнение метода типа bool</returns>
         public async Task<bool> UpdateAsync(Company item)
         {
-            Company company = await GetByIdAsync(item.CompanyId);
-
-            if (company != null)
+            if (item != null)
             {
-                company = item;
+                _dbContext.Companies.Update(item);
 
                 var result = await _dbContext.SaveChangesAsync();
 

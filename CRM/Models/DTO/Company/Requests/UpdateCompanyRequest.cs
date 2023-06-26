@@ -2,7 +2,7 @@
 
 namespace CRM.Models.DTO.Company.Requests;
 
-public class UpdateComponyRequest
+public class UpdateCompanyRequest
 {
     public CRM.Data.Entities.Company Company { get; set; }
 }

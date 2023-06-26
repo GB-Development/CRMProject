@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using CRM.Data.Entities;
-using CRM.Models.DTO.Company.Requests;
-using CRM.Models.DTO.Company.Responses;
 using CRM.Models.DTO.Contact.Requests;
+using CRM.Models.DTO.Contact.Responses;
 using CRM.Services.Repositories;
-using CRM.Services.Repositories.Implementation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.Controllers;
@@ -77,19 +75,57 @@ public class ContactController : ControllerBase
                 });
             }
 
-            var result = await _contactRepository.GetByIdAsync(request.CompanyId);
+            var result = await _contactRepository.GetByIdAsync(request.ContactId);
 
 
             return Ok(new GetContactResponse
             {
                 Result = result,
-                StatusCode = 1001,
+                StatusCode = 200,
                 ErrorMessage = null
             });
         }
         catch (Exception ex)
         {
             return Ok(new GetContactResponse
+            {
+                Result = null,
+                StatusCode = 1001,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
+    [HttpGet("get-all"),
+        ProducesResponseType(typeof(GetAllContactResponse),
+        StatusCodes.Status200OK)]
+    public async Task<ActionResult<GetAllContactResponse>> GetAllAsync()
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return Ok(new GetAllContactResponse
+                {
+                    Result = null,
+                    StatusCode = 1001,
+                    ErrorMessage = $"Данные не прошли валидацию! ({string.Join(',', ModelState.Values)})"
+                });
+            }
+
+            var result = await _contactRepository.GetAllAsync();
+
+
+            return Ok(new GetAllContactResponse
+            {
+                Result = result,
+                StatusCode = 200,
+                ErrorMessage = null
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new GetAllContactResponse
             {
                 Result = null,
                 StatusCode = 1001,
@@ -115,7 +151,7 @@ public class ContactController : ControllerBase
                 });
             }
 
-            var result = await _contactRepository.UpdateAsync(request.Company);
+            var result = await _contactRepository.UpdateAsync(request.Contact);
 
             return Ok(new UpdateContactResponse
             {

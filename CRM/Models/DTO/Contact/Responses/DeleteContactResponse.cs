@@ -1,6 +1,7 @@
-﻿namespace CRM.Models.DTO.Contact.Responses
+﻿using CRM.Models.DTO.Abstract;
+
+namespace CRM.Models.DTO.Contact.Responses;
+
+public class DeleteContactResponse : AbstractResponse<bool>
 {
-    public class DeleteContactResponse
-    {
-    }
 }

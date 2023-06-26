@@ -23,15 +23,15 @@ public class CompanyController : ControllerBase
     }
 
     [   HttpPost("create"), 
-        ProducesResponseType(typeof(CreateComponyResponse), 
+        ProducesResponseType(typeof(CreateCompanyResponse), 
         StatusCodes.Status200OK)]
-    public async Task<ActionResult<CreateComponyResponse>> CreateAsync([FromQuery] CreateComponyRequest request)
+    public async Task<ActionResult<CreateCompanyResponse>> CreateAsync([FromQuery] CreateCompanyRequest request)
     {
         try
         {
             if (!ModelState.IsValid)
             {
-                return Ok(new CreateComponyResponse
+                return Ok(new CreateCompanyResponse
                 {
                     Result = false,
                     StatusCode = 0,
@@ -41,7 +41,7 @@ public class CompanyController : ControllerBase
 
             var result = await _companyRepository.CreateAsync(_mapper.Map<Company>(request));
 
-            return Ok(new CreateComponyResponse
+            return Ok(new CreateCompanyResponse
             {
                 Result = true,
                 StatusCode = 200,
@@ -50,7 +50,7 @@ public class CompanyController : ControllerBase
         }
         catch (Exception ex)
         {
-            return Ok(new CreateComponyResponse
+            return Ok(new CreateCompanyResponse
             {
                 Result = false,
                 StatusCode = 1001,
@@ -60,15 +60,15 @@ public class CompanyController : ControllerBase
     }
 
     [   HttpGet("get"),
-        ProducesResponseType(typeof(GetComponyResponse),
+        ProducesResponseType(typeof(GetCompanyResponse),
         StatusCodes.Status200OK)]
-    public async Task<ActionResult<GetComponyResponse>> GetAsync([FromQuery] GetComponyRequest request)
+    public async Task<ActionResult<GetCompanyResponse>> GetAsync([FromQuery] GetCompanyRequest request)
     {
         try
         {
             if (!ModelState.IsValid)
             {
-                return Ok(new GetComponyResponse
+                return Ok(new GetCompanyResponse
                 {
                     Result = null,
                     StatusCode = 1001,
@@ -79,16 +79,54 @@ public class CompanyController : ControllerBase
             var result = await _companyRepository.GetByIdAsync(request.CompanyId);
 
 
-            return Ok(new GetComponyResponse
+            return Ok(new GetCompanyResponse
             {
                 Result = result,
-                StatusCode = 1001,
+                StatusCode = 200,
                 ErrorMessage = null
             });
         }
         catch (Exception ex)
         {
-            return Ok(new GetComponyResponse
+            return Ok(new GetCompanyResponse
+            {
+                Result = null,
+                StatusCode = 1001,
+                ErrorMessage = ex.Message
+            });
+        }
+    }
+
+    [HttpGet("get-all"),
+        ProducesResponseType(typeof(GetAllCompanyResponse),
+        StatusCodes.Status200OK)]
+    public async Task<ActionResult<GetAllCompanyResponse>> GetAllAsync()
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return Ok(new GetAllCompanyResponse
+                {
+                    Result = null,
+                    StatusCode = 1001,
+                    ErrorMessage = $"Данные не прошли валидацию! ({string.Join(',', ModelState.Values)})"
+                });
+            }
+
+            var result = await _companyRepository.GetAllAsync();
+
+
+            return Ok(new GetAllCompanyResponse
+            {
+                Result = result,
+                StatusCode = 200,
+                ErrorMessage = null
+            });
+        }
+        catch (Exception ex)
+        {
+            return Ok(new GetAllCompanyResponse
             {
                 Result = null,
                 StatusCode = 1001,
@@ -98,15 +136,15 @@ public class CompanyController : ControllerBase
     }
 
     [   HttpPut("update"),
-        ProducesResponseType(typeof(UpdateComponyResponse),
+        ProducesResponseType(typeof(UpdateCompanyResponse),
         StatusCodes.Status200OK)]
-    public async Task<ActionResult<UpdateComponyResponse>> UpdateAsync([FromQuery] UpdateComponyRequest request)
+    public async Task<ActionResult<UpdateCompanyResponse>> UpdateAsync([FromQuery] UpdateCompanyRequest request)
     {
         try
         {
             if (!ModelState.IsValid)
             {
-                return Ok(new UpdateComponyResponse
+                return Ok(new UpdateCompanyResponse
                 {
                     Result = false,
                     StatusCode = 1001,
@@ -116,7 +154,7 @@ public class CompanyController : ControllerBase
 
             var result = await _companyRepository.UpdateAsync(request.Company);
 
-            return Ok(new UpdateComponyResponse
+            return Ok(new UpdateCompanyResponse
             {
                 Result = result,
                 StatusCode = 200,
@@ -126,7 +164,7 @@ public class CompanyController : ControllerBase
         }
         catch (Exception ex)
         {
-            return Ok(new UpdateComponyResponse
+            return Ok(new UpdateCompanyResponse
             {
                 Result = false,
                 StatusCode = 1001,
@@ -136,15 +174,15 @@ public class CompanyController : ControllerBase
     }
 
     [   HttpDelete("delete"),
-        ProducesResponseType(typeof(DeleteComponyResponse),
+        ProducesResponseType(typeof(DeleteCompanyResponse),
         StatusCodes.Status200OK)]
-    public async Task<ActionResult<DeleteComponyResponse>> DeleteAsync([FromQuery] DeleteComponyRequest request)
+    public async Task<ActionResult<DeleteCompanyResponse>> DeleteAsync([FromQuery] DeleteCompanyRequest request)
     {
         try
         {
             if (!ModelState.IsValid)
             {
-                return Ok(new DeleteComponyResponse
+                return Ok(new DeleteCompanyResponse
                 {
                     Result = false,
                     StatusCode = 1001,
@@ -154,7 +192,7 @@ public class CompanyController : ControllerBase
 
             var result = await _companyRepository.DeleteAsync(_mapper.Map<Company>(request));
 
-            return Ok(new DeleteComponyResponse
+            return Ok(new DeleteCompanyResponse
             {
                 Result = result,
                 StatusCode = 200,
@@ -163,7 +201,7 @@ public class CompanyController : ControllerBase
         }
         catch (Exception ex)
         {
-            return Ok(new DeleteComponyResponse
+            return Ok(new DeleteCompanyResponse
             {
                 Result = false,
                 StatusCode = 1001,

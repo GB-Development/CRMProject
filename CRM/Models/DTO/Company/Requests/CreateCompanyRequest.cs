@@ -2,7 +2,7 @@
 
 namespace CRM.Models.DTO.Company.Requests;
 
-public class CreateComponyRequest
+public class CreateCompanyRequest
 {
     /// <summary>
     /// Получает или задает наименование компании

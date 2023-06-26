@@ -1,6 +1,8 @@
-﻿namespace CRM.Models.DTO.Contact.Requests
+﻿using CRM.Data.Entities;
+
+namespace CRM.Models.DTO.Contact.Requests;
+
+public class UpdateContactRequest
 {
-    public class UpdateContactRequest
-    {
-    }
+    public CRM.Data.Entities.Contact Contact { get; set; }
 }
