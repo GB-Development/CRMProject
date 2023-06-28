@@ -31,7 +31,7 @@ namespace CRM.Services.Repositories.Implementation
         /// Представляет реализацию метода создания и сохранения одиночного объекта типа <see cref="Deal"/> в БД
         /// </summary>
         /// <param name="item"></param>
-        public void Create(Deal item)
+        public void Create(Deal item) { }
 
 
         public async Task CreateAsync(Deal item)
