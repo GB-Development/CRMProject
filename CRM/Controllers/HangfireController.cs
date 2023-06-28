@@ -50,7 +50,7 @@ namespace CRM.Controllers
             string cron = "0 6-15 * * *";
 
             var serviceProvider = new FindOverdueTransactions(_dealRepository);
-            RecurringJob.AddOrUpdate(() => serviceProvider.FindTransaction<List<Deal>>(), cron);
+            RecurringJob.AddOrUpdate(() => serviceProvider.FindTransaction(), cron);
             //для последующей рассылки serviceProvider оборачивается в EmailSendler c EmailManager и сообщением.
             return Ok();
         }
