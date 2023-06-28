@@ -35,5 +35,9 @@ namespace CRM.Model.Entities
         /// </summary>
         public string? Address { get; set; }
 
+        [Required]
+        [ForeignKey(nameof(ContactId))]
+        public int CompanyId { get; set; }
+
     }
 }

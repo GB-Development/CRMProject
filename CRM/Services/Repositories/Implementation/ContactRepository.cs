@@ -1,5 +1,7 @@
 ﻿using CRM.Data;
 using CRM.Model.Entities;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.Contracts;
 
 namespace CRM.Services.Repositories.Implementation
 {
@@ -7,28 +9,40 @@ namespace CRM.Services.Repositories.Implementation
     {
         private readonly ApplicationDbContext _dbContext;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="dbContext"></param>
         public ContactRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="item"></param>
-        public void Create(Contact item)
+        public async Task CreateAsync(Contact item)
         {
+            await _dbContext.Contacts.AddAsync(item);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(Contact item)
+        {
+            var contact = await _dbContext.Contacts.FirstOrDefaultAsync(x => x.ContactId == item.ContactId && x.CompanyId == item.CompanyId);
+
+            if (contact == null)
+                return;
+
+            _dbContext.Contacts.Remove(item);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(Contact item)
+        {
+            var contact = await _dbContext.Contacts.FirstOrDefaultAsync(x => x.ContactId == item.ContactId && x.CompanyId == item.CompanyId);
+
+            if (contact == null)
+                return;
+
+            _dbContext.Contacts.Update(item);
+            await _dbContext.SaveChangesAsync();
 
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="items"></param>
         public async Task CreateCollection(List<Contact> items)
         {
             _dbContext.AddRange(items);

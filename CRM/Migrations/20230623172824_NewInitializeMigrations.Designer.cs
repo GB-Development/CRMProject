@@ -12,15 +12,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CRM.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230615181651_Update-Entities")]
-    partial class UpdateEntities
+    [Migration("20230623172824_NewInitializeMigrations")]
+    partial class NewInitializeMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.5")
+                .HasAnnotation("ProductVersion", "7.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -70,9 +70,6 @@ namespace CRM.Migrations
 
                     b.HasKey("CompanyId");
 
-                    b.HasIndex("CompanyName")
-                        .IsUnique();
-
                     b.HasIndex("INN")
                         .IsUnique();
 
@@ -90,7 +87,7 @@ namespace CRM.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("text");
 
-                    b.Property<int?>("CompanyId")
+                    b.Property<int>("CompanyId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Email")
@@ -105,9 +102,6 @@ namespace CRM.Migrations
                     b.HasKey("ContactId");
 
                     b.HasIndex("CompanyId");
-
-                    b.HasIndex("FullName")
-                        .IsUnique();
 
                     b.ToTable("Contact");
                 });
@@ -140,7 +134,9 @@ namespace CRM.Migrations
                 {
                     b.HasOne("CRM.Model.Entities.Company", null)
                         .WithMany("Contacts")
-                        .HasForeignKey("CompanyId");
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("CRM.Model.Entities.Deal", b =>

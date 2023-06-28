@@ -1,3 +1,4 @@
+using CRM;
 using CRM.Data;
 using CRM.Model.Entities;
 using CRM.Services;
@@ -15,7 +16,8 @@ var builder = WebApplication.CreateBuilder(args);
 #region ApplicationDbContext
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
-    options.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRESQL_CONNECTION_STRING"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"));
+    //options.UseNpgsql(Environment.GetEnvironmentVariable("POSTGRESQL_CONNECTION_STRING"));
 });
 
 #endregion
@@ -37,6 +39,7 @@ builder.Services.AddHangfireServer();
 
 #region Services
 
+builder.Services.AddAutoMapper(typeof(MappingConfig));
 builder.Services.AddScoped<IExcelService, ExcelService>();
 builder.Services.AddScoped<ICompanyExcelDTOService, CompanyExcelDTOService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
