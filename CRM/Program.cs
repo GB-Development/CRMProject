@@ -1,5 +1,6 @@
 using CRM;
 using CRM.Data;
+using CRM.Model.Entities;
 using CRM.Services;
 using CRM.Services.DTO;
 using CRM.Services.Entities;

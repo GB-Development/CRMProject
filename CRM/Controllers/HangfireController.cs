@@ -1,4 +1,7 @@
-﻿using Hangfire;
+﻿using CRM.Jobs;
+using CRM.Model.Entities;
+using CRM.Services.Repositories;
+using Hangfire;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.Controllers
@@ -7,6 +10,7 @@ namespace CRM.Controllers
     [ApiController]
     public class HangfireController : ControllerBase
     {
+        private readonly IDealRepository? _dealRepository;
         /// <summary>
         /// Тестовый контроллер выполнения единичной задачи с применением Hangfire
         /// </summary>
@@ -45,10 +49,9 @@ namespace CRM.Controllers
         {
             string cron = "0 6-15 * * *";
 
-            RecurringJob.AddOrUpdate("Run Find Overdue Transactions Job",
-                () => Console.WriteLine("Тут будет сообщение!"), cron); ;
-            // Вместо консоли будет добавлена задача 
-            //() => serviceProvider.GetService<IFindOverdueTransactionsJobs>().FindOverdueTransactions()
+            var serviceProvider = new FindOverdueTransactions(_dealRepository);
+            RecurringJob.AddOrUpdate(() => serviceProvider.FindTransaction(), cron);
+            //для последующей рассылки serviceProvider оборачивается в EmailSendler c EmailManager и сообщением.
             return Ok();
         }
 
