@@ -10,7 +10,7 @@ namespace CRM.Controllers
     [ApiController]
     public class HangfireController : ControllerBase
     {
-        private readonly IDealRepository<Deal>? _dealRepository;
+        private readonly IDealRepository? _dealRepository;
         /// <summary>
         /// Тестовый контроллер выполнения единичной задачи с применением Hangfire
         /// </summary>

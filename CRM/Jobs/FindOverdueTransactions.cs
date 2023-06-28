@@ -6,8 +6,8 @@ namespace CRM.Jobs
     public class FindOverdueTransactions : IFindOverdueTransactionsJobs
     {
 
-        private readonly IDealRepository<Deal> _dealRepository;
-        public FindOverdueTransactions(IDealRepository<Deal> dealRepository)
+        private readonly IDealRepository _dealRepository;
+        public FindOverdueTransactions(IDealRepository dealRepository)
         {
             _dealRepository = dealRepository;
         }

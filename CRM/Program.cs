@@ -42,7 +42,7 @@ builder.Services.AddScoped<ICompanyExcelDTOService, CompanyExcelDTOService>();
 builder.Services.AddScoped<ICompanyService, CompanyService>();
 builder.Services.AddScoped<ICompanyRepository, CompanyRepository>();
 builder.Services.AddScoped<IContactRepository, ContactRepository>();
-builder.Services.AddScoped<IDealRepository<Deal>, DealRepository>();
+builder.Services.AddScoped<IDealRepository, DealRepository>();
 
 #endregion
 

@@ -7,7 +7,7 @@ namespace CRM.Services.Repositories.Implementation
     /// <summary>
     /// Представляет реализацию репозитория для работы с объектами типа  <see cref="Deal"/>
     /// </summary>
-    public class DealRepository : IDealRepository<Deal>
+    public class DealRepository : IDealRepository
 
     {
         private readonly ApplicationDbContext _dbContext;
@@ -44,7 +44,7 @@ namespace CRM.Services.Repositories.Implementation
         /// <param name="items"></param>
         public List<Deal> ReadCollection()
         {
-            return _dbContext.GetService<List<Deal>>().ToList();
+            return _dbContext.Deals.ToList();
             //не пойму ни как что правильнее return _dbContext.Find<List<Deal>>(); и вообще совсем не то!
         }
 
