@@ -1,7 +1,14 @@
 ﻿using CRM.WebClient.Models;
+using IdentityModel.Client;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.Diagnostics;
+using System.Security.Claims;
+using static IdentityModel.OidcConstants;
 
 namespace CRM.WebClient.Controllers
 {
@@ -9,7 +16,8 @@ namespace CRM.WebClient.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController( 
+            ILogger<HomeController> logger)
         {
             _logger = logger;
         }
@@ -38,6 +46,14 @@ namespace CRM.WebClient.Controllers
         public IActionResult Login(string redirectUrl)
         {
             return View("Index");
+        }
+
+        [Authorize]
+        public async Task<IActionResult> LogoutAsync()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync("oidc");
+            return RedirectToAction("Index", "Home");
         }
     }
 }
