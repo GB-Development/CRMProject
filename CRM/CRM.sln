@@ -13,6 +13,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRMIdentity.Data", "..\Iden
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebClient", "..\Identity\WebClient\WebClient.csproj", "{9AF193A8-589F-44D4-B53D-7685AC8E44B8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Clients", "Clients", "{2533A5BC-C502-4AB7-BF76-74309E3AD9B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRM.WebClient", "..\CRM.WebClient\CRM.WebClient.csproj", "{E5A81EC8-FBA1-40B4-8DF0-B389DDBB4255}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +39,10 @@ Global
 		{9AF193A8-589F-44D4-B53D-7685AC8E44B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AF193A8-589F-44D4-B53D-7685AC8E44B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AF193A8-589F-44D4-B53D-7685AC8E44B8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5A81EC8-FBA1-40B4-8DF0-B389DDBB4255}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5A81EC8-FBA1-40B4-8DF0-B389DDBB4255}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5A81EC8-FBA1-40B4-8DF0-B389DDBB4255}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5A81EC8-FBA1-40B4-8DF0-B389DDBB4255}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -43,6 +51,7 @@ Global
 		{C5FCAA93-63E6-4EA1-B0BB-404D9391F5BA} = {0C769741-1F29-41F3-8CF2-794524BF5363}
 		{13259E33-989A-45E4-AEA9-AF4A0F12510E} = {0C769741-1F29-41F3-8CF2-794524BF5363}
 		{9AF193A8-589F-44D4-B53D-7685AC8E44B8} = {0C769741-1F29-41F3-8CF2-794524BF5363}
+		{E5A81EC8-FBA1-40B4-8DF0-B389DDBB4255} = {2533A5BC-C502-4AB7-BF76-74309E3AD9B7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2F9B9B25-D6EB-41AD-BE58-284408DDF059}
