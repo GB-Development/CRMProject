@@ -1,0 +1,54 @@
+﻿@model List<CrmCompany>;
+
+@{
+    ViewData["Title"] = "Workflow / Company";
+    Layout = "~/Views/Workflow/_LayoutWorkflow.cshtml";
+}
+<div class="content row-col-1 d-flex flex-column align-items-center m-5">
+
+    <div class="d-flex col-12">
+        <div class="col-4">
+        </div>
+        <h3 class="col-4" style="color: white; text-align: center;">@ViewData["Title"]</h3>
+        <div class="col-4" style="text-align: center;">
+            <a href="#" class="btn btn-success">Add New Company</a>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center flex-wrap container m-3">
+        <div class="row col-12 pt-3" style="background: rgba(100,100,155, 0.65); color: white; border-radius: 5px 5px 0 0;">
+            <p class="col-1">#</p>
+            <p class="col-7">Наименование компании</p>
+            <p class="col-3">ИНН</p>
+            <p class="col-1"></p>
+        </div>
+
+        @if (Model is null || Model.Count == 0)
+        {
+            <p class="fs-4 row col-12" style="background: rgba(100,100,155, 0.55); color: white; text-align: center;">Нет компаний в вашей базе.</p>
+        }
+        else
+        {
+            var count = 1;
+            foreach (var company in Model)
+            {
+                <div class="row col-12 align-items-center" style="background: rgba(100,100,155, 0.55); color: white;">
+                    <p class="col-1 m-0">@count</p>
+                    <p class="col-7 m-0">
+                        <a href="#">@company.CompanyName</a>
+                    </p>
+                    <p class="col-3 m-0">@company.INN</p>
+                    <p class="col-1 m-0">
+                        <a href="#" class="btn btn-outline-danger btn-sm">Delete</a>
+                    </p>
+                </div>
+
+                count++;
+            }
+        }
+
+        <div class="row col-12 pb-3" style="background: rgba(100,100,155, 0.65); color: white; border-radius: 0 0 5px 5px;">
+            
+        </div>
+    </div>
+</div>

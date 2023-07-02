@@ -1,14 +1,9 @@
 ﻿using CRM.WebClient.Models;
-using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using System.Diagnostics;
-using System.Security.Claims;
-using static IdentityModel.OidcConstants;
 
 namespace CRM.WebClient.Controllers
 {

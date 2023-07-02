@@ -1,8 +1,10 @@
 ﻿using CRM.WebClient.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CRM.WebClient.Controllers
 {
+    [Authorize]
     public class WorkflowController : Controller
     {
         public IActionResult Index()
@@ -10,20 +12,10 @@ namespace CRM.WebClient.Controllers
             return View();
         }
 
-        public IActionResult Task()
+        public IActionResult Deal()
         {
-            List<CrmTask> tasks = new List<CrmTask>();
+            List<CrmDeal> tasks = new List<CrmDeal>();
             return View(tasks);
-        }
-
-        public IActionResult Company()
-        {
-            return View();
-        }
-
-        public IActionResult Contact()
-        {
-            return View();
         }
     }
 }

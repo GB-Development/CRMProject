@@ -1,0 +1,46 @@
+﻿@model List<CrmDeal>;
+
+@{
+    ViewData["Title"] = "Workflow / Deals";
+    Layout = "~/Views/Workflow/_LayoutWorkflow.cshtml";
+}
+<div class="content row-col-1 d-flex flex-column align-items-center m-5">
+
+    <div class="d-flex col-12">
+        <div class="col-4">
+        </div>
+        <h3 class="col-4" style="color: white; text-align: center;">@ViewData["Title"]</h3>
+        <div class="col-4" style="text-align: center;">
+            <a href="#" class="btn btn-success">Add New Deal</a>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center flex-wrap container m-3">
+
+        @if (Model is null || Model.Count == 0)
+        {
+            <p class="fs-4" style="color: white;">Нет контактов в машей базе.</p>
+        }
+        else
+        {
+            foreach (var deal in Model)
+            {
+                <div class="card m-1" style="background: rgba(100,100,155, 0.55);">
+                    <div class="card-body" style="color: white;">
+                        <h5 class="card-title">@deal.ManagerId</h5>
+                        <p class="card-text m-0">
+                            Название сделки: @deal.Company.CompanyName
+                        </p>
+                        <p class="card-text">
+                            Дата сделки: @deal.DateContact
+                        </p>
+                        <div class="btn-group col-12">
+                            <a href="#" class="btn btn-success col-6">Подтвердить</a>
+                            <a href="#" class="btn btn-outline-danger col-6">Отменить</a>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>
