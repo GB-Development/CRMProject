@@ -11,7 +11,25 @@
   </ItemGroup>
 
   <ItemGroup>
+    <OpenApiReference Include="OpenAPIs\swagger.json" CodeGenerator="NSwagCSharp" Namespace="CRM.IdentityServer.Client" ClassName="RegistryClient">
+      <SourceUri>https://localhost:5001/swagger/v1/swagger.json</SourceUri>
+    </OpenApiReference>
+    <OpenApiReference Include="OpenAPIs\swagger1.json" CodeGenerator="NSwagCSharp" Namespace="CRM.CRMapi.Client" ClassName="CrmClient">
+      <SourceUri>https://localhost:7255/swagger/v1/swagger.json</SourceUri>
+    </OpenApiReference>
+  </ItemGroup>
+
+  <ItemGroup>
 	  <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.1" />
+	  <PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="7.0.2">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	  <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+	  <PackageReference Include="NSwag.ApiDescription.Client" Version="13.18.2">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
   </ItemGroup>
 
 </Project>

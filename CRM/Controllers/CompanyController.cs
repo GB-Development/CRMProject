@@ -5,6 +5,7 @@ using CRM.Model.Entities;
 using CRM.Services.Interfaces;
 using CRM.Services.Repositories;
 using CRM.Services.Repositories.Implementation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -24,9 +25,10 @@ namespace CRM.Controllers
         }
 
         [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        public async Task<ActionResult<List<Company>>> GetAll()
         {
-            return Ok(await _dbContext.GetAllAsync());
+            var result = await _dbContext.GetAllAsync();
+            return Ok(result);
         }
 
         [HttpPost("Create")]
@@ -66,7 +68,7 @@ namespace CRM.Controllers
         }
 
         [HttpGet("GetByID")]
-        public async Task<IActionResult> GetByID(int id)
+        public async Task<ActionResult<Company>> GetByID(int id)
         {
             var company = await _dbContext.GetByIDAsync(id);
 

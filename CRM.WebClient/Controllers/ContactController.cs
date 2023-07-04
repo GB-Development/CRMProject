@@ -1,4 +1,5 @@
-﻿using CRM.WebClient.Models;
+﻿using CRM.CRMapi.Client;
+using CRM.WebClient.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,7 +9,8 @@ namespace CRM.WebClient.Controllers
     [Authorize]
     public class ContactController : Controller
     {
-        public IActionResult Index()
+
+		public IActionResult Index()
         {
             List<CrmContact> contacts = new List<CrmContact>
             {

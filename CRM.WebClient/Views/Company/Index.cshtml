@@ -11,7 +11,7 @@
         </div>
         <h3 class="col-4" style="color: white; text-align: center;">@ViewData["Title"]</h3>
         <div class="col-4" style="text-align: center;">
-            <a href="#" class="btn btn-success">Add New Company</a>
+            <a asp-action="Create" class="btn btn-success">Add New Company</a>
         </div>
     </div>
 
@@ -35,11 +35,11 @@
                 <div class="row col-12 align-items-center" style="background: rgba(100,100,155, 0.55); color: white;">
                     <p class="col-1 m-0">@count</p>
                     <p class="col-7 m-0">
-                        <a href="#">@company.CompanyName</a>
+                        <a asp-action="Edit" asp-route-id="@company.CompanyId">@company.CompanyName</a>
                     </p>
                     <p class="col-3 m-0">@company.INN</p>
                     <p class="col-1 m-0">
-                        <a href="#" class="btn btn-outline-danger btn-sm">Delete</a>
+                        <a asp-action="Delete" asp-route-id="@company.CompanyId" class="btn btn-outline-danger btn-sm">Delete</a>
                     </p>
                 </div>
 

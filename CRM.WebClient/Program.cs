@@ -1,4 +1,7 @@
+using CRM.CRMapi.Client;
+using CRM.IdentityServer.Client;
 using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 
 namespace CRM.WebClient
 {
@@ -44,6 +47,16 @@ namespace CRM.WebClient
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+
+            builder.Services.AddScoped<RegistryClient>(x =>
+            {
+                return new RegistryClient("https://localhost:5001", new HttpClient());
+            });
+
+            builder.Services.AddScoped<CrmClient>(x =>
+            {
+                return new CrmClient("https://localhost:7255", new HttpClient());
+            });
 
             var app = builder.Build();
 

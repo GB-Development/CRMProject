@@ -55,9 +55,12 @@ namespace CRM.Services.Repositories.Implementation
             if (a == null)
                 return;
 
-            _dbContext.Companies.Update(item);
-            await _dbContext.SaveChangesAsync();
+            a.INN = item.INN;
+            a.CompanyName = item.CompanyName;
 
+            _dbContext.Companies.Update(a);
+            var count = await _dbContext.SaveChangesAsync();
+            await Console.Out.WriteLineAsync(count.ToString());
         }
         public async Task CreateCollection(List<Company> items)
         {

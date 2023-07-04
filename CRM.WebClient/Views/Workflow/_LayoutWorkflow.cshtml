@@ -50,36 +50,33 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Team">Team</a>
                         </li>
                     </ul>
-                    @if (!User.Identity.IsAuthenticated)
-                    {
-                        <a class="btn btn-purple" asp-area="" asp-controller="Home" asp-action="Login">Login \ Sing Up</a>
-                    }
-                    else
-                    {
-                        <div class="account-info" >
-                            <div class="btn-group" role="group" aria-label="группа кнопок аккаунта">
-                                @{
-                                    var claimName = User.Claims.FirstOrDefault(x => x.Type == "name");
-                                    var userName = claimName is not null ? claimName.Value : "None";
-                                }
-                                <button class="btn btn-purple" style="min-width: 150px;">
-                                    <div style="z-index: 1005; position:absolute; top: -20px; left: -38px; background: #FFFFFF; width: 76px; height: 76px; border-radius: 50%;">
-                                        <div style="position:relative; top: 3px; left: 3px; background: #D9D9D9; width: 70px; height: 70px; border-radius: 50%;"></div>
-                                    </div>
-                                    Hi, @userName
-                                </button>
-                                <button class="btn btn-purple dropdown" style="border-left: solid; border-color: white; border-radius: 0 5px 5px 0; font-weight: bold;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    ...
-                                </button>
+                    <div class="account-info">
+                        <div class="btn-group" role="group" aria-label="группа кнопок аккаунта">
+                            @{
+                                var claimName = User.Claims.FirstOrDefault(x => x.Type == "name");
+                                var userName = claimName is not null ? claimName.Value : "None";
+                            }
+                            <button class="btn btn-purple" style="min-width: 200px;">
+                                <div style="z-index: 1005; position:absolute; top: -20px; left: -38px; background: #FFFFFF; width: 76px; height: 76px; border-radius: 50%;">
+                                    <div style="position:relative; top: 3px; left: 3px; background: #D9D9D9; width: 70px; height: 70px; border-radius: 50%;"></div>
+                                </div>
+                                Hi, @userName
+                            </button>
+                            <button class="btn btn-purple dropdown" style="border-left: solid; border-color: white; border-radius: 0 5px 5px 0; font-weight: bold;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                ...
+                            </button>
 
-                                <ul class="dropdown-menu dropdown-menu-end">
-                                    <li><a class="dropdown-item" href="#">Profile</a></li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Logout">Log out</a></li>
-                                </ul>
-                            </div>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                @if(User.Claims.FirstOrDefault(x => x.Value.Contains("admin")) is not null)
+                                {
+                                    <li><a class="dropdown-item" href="#">Add new User</a></li>
+                                }
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Logout">Log out</a></li>
+                            </ul>
                         </div>
-                    }
+                    </div>
                 </div>
             </div>
         </nav>
@@ -91,8 +88,15 @@
                     <ul class="nav flex-column mt-3">
                         <li class="nav-item">
                             <a class="nav-link" style="display:flex; flex-direction: column; align-items: center;"
-                               asp-area="" asp-controller="Deal" asp-action="Index">
+                               asp-area="" asp-controller="Workflow" asp-action="Index">
                                 <i class="bi bi-list-task" style="font-size: 40px; color: white; line-height: 0;"></i>
+                                <span style="font-size: 20px; color: white;">Задачи</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" style="display:flex; flex-direction: column; align-items: center;"
+                               asp-area="" asp-controller="Deal" asp-action="Index">
+                                <i class="bi bi-briefcase" style="font-size: 40px; color: white; line-height: 0;"></i>
                                 <span style="font-size: 20px; color: white;">Сделки</span>
                             </a>
                         </li>

@@ -1,4 +1,5 @@
-﻿using CRM.WebClient.Models;
+﻿using CRM.CRMapi.Client;
+using CRM.WebClient.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,30 +9,91 @@ namespace CRM.WebClient.Controllers
     [Authorize]
     public class CompanyController : Controller
     {
-        public IActionResult Index()
+        private readonly CrmClient _client;
+
+        public CompanyController(CrmClient client)
         {
-            List<CrmCompany> companies = new List<CrmCompany> 
-            { 
-                new CrmCompany
+            _client = client;
+        }
+
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+		public async Task<IActionResult> Create(CompanyCreateDto company)
+		{
+            await _client.CreateAsync(company);
+
+			return RedirectToAction("Index");
+		}
+
+		public async Task<IActionResult> Index()
+        {
+            var companies = await _client.GetAllAllAsync();
+            List<CrmCompany> companies2 = new List<CrmCompany>();
+
+            foreach (var companyApi in companies)
+            {
+                var clientCompany = new CrmCompany
                 {
-                    CompanyName = "Company-1",
-                    INN = "11111111",
-                    WebSite = "info@company1.com"
-                },
-                new CrmCompany
-                {
-                    CompanyName = "Company-2",
-                    INN = "22222222",
-                    WebSite = "info@company2.com"
-                },
-                new CrmCompany
-                {
-                    CompanyName = "Company-3",
-                    INN = "33333333",
-                    WebSite = "info@company3.com"
-                },
-            };
-            return View(companies);
+                    CompanyName = companyApi.CompanyName,
+                    CompanyId = companyApi.CompanyId,
+                    INN = companyApi.Inn
+                };
+                companies2.Add(clientCompany);
+            }
+
+
+            return View(companies2);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var company = await _client.GetByIDAsync(id);
+            if (company is null)
+            {
+                return NotFound();
+            }
+
+            return View("Edit", company);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(Company company)
+        {
+            await _client.UpdateAsync(new CompanyUpdateDto
+            {
+                CompanyId=company.CompanyId,
+                CompanyName=company.CompanyName,
+                Inn=company.Inn
+            });
+
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var company = await _client.GetByIDAsync(id);
+            if (company is null)
+            {
+                return NotFound();
+            }
+
+            return View("Delete", new CompanyDeleteDto
+            {
+                CompanyId = company.CompanyId
+            });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(CompanyDeleteDto company)
+        {
+            await _client.DeleteAsync(company);
+
+            return RedirectToAction("Index");
         }
     }
 }
