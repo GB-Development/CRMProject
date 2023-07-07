@@ -1,46 +1,44 @@
 ﻿using AutoMapper;
-using CRM.Data;
 using CRM.Model.DTO;
 using CRM.Model.Entities;
-using CRM.Services.Interfaces;
 using CRM.Services.Repositories;
-using CRM.Services.Repositories.Implementation;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CRM.Controllers
 {
-    [Route("api/company")]
+	[Route("api/[controller]")]
     public class CompanyController : Controller
     {
-        private readonly ICompanyRepository _dbContext;
+        private readonly ICompanyRepository _companyRepository;
         private readonly IMapper _mapper;
 
-        public CompanyController(ICompanyRepository dbContext,
+        public CompanyController(ICompanyRepository companyRepository,
             IMapper mapper)
         {
-            _dbContext = dbContext;
+            _companyRepository = companyRepository;
             _mapper = mapper;
         }
 
         [HttpGet("GetAll")]
         public async Task<ActionResult<List<Company>>> GetAll()
         {
-            var result = await _dbContext.GetAllAsync();
+            var result = await _companyRepository.GetAllAsync();
             return Ok(result);
         }
 
-        [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody] CompanyCreateDto item)
+		[HttpPost("Сreate"),
+		ProducesResponseType(typeof(ActionResult<string>),
+		StatusCodes.Status200OK)]
+		public async Task<ActionResult<string>> Create([FromBody] CompanyCreateDto item)
         {
             var company = _mapper.Map<Company>(item);
 
             if (company == null)
-                return NotFound();
+                return Ok("NULL");
 
-            await _dbContext.CreateAsync(company);
-            return Ok();
+            var result = await _companyRepository.CreateAsync(company);
+
+            return Ok(result);
         }
 
         [HttpPut("Update")]
@@ -51,7 +49,7 @@ namespace CRM.Controllers
             if (company == null)
                 return NotFound();
 
-            await _dbContext.UpdateAsync(company);
+            await _companyRepository.UpdateAsync(company);
             return Ok();
         }
 
@@ -63,14 +61,14 @@ namespace CRM.Controllers
             if (company == null)
                 return NotFound();
 
-            await _dbContext.DeleteAsync(company);
+            await _companyRepository.DeleteAsync(company);
             return Ok();
         }
 
         [HttpGet("GetByID")]
         public async Task<ActionResult<Company>> GetByID(int id)
         {
-            var company = await _dbContext.GetByIDAsync(id);
+            var company = await _companyRepository.GetByIDAsync(id);
 
             if (company == null)
                 return NotFound();

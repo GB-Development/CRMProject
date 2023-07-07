@@ -1,11 +1,10 @@
 ﻿using CRM.Data;
 using CRM.Model.Entities;
 using Microsoft.EntityFrameworkCore;
-using System.Diagnostics.Contracts;
 
 namespace CRM.Services.Repositories.Implementation
 {
-    public class ContactRepository : IContactRepository
+	public class ContactRepository : IContactRepository
     {
         private readonly ApplicationDbContext _dbContext;
 
@@ -14,39 +13,68 @@ namespace CRM.Services.Repositories.Implementation
             _dbContext = dbContext;
         }
 
-        public async Task CreateAsync(Contact item)
+        public async Task<int> CreateAsync(Contact item)
         {
-            await _dbContext.Contacts.AddAsync(item);
+            var result = await _dbContext.Contacts.AddAsync(item);
+
             await _dbContext.SaveChangesAsync();
+
+            return result.Entity.ContactId;
         }
 
-        public async Task DeleteAsync(Contact item)
+        public async Task<bool> DeleteAsync(Contact item)
         {
             var contact = await _dbContext.Contacts.FirstOrDefaultAsync(x => x.ContactId == item.ContactId && x.CompanyId == item.CompanyId);
 
             if (contact == null)
-                return;
+                return false;
 
             _dbContext.Contacts.Remove(item);
+
             await _dbContext.SaveChangesAsync();
+
+            return true;
         }
 
-        public async Task UpdateAsync(Contact item)
+        public async Task<bool> UpdateAsync(Contact item)
         {
             var contact = await _dbContext.Contacts.FirstOrDefaultAsync(x => x.ContactId == item.ContactId && x.CompanyId == item.CompanyId);
 
             if (contact == null)
-                return;
+                return false;
 
-            _dbContext.Contacts.Update(item);
-            await _dbContext.SaveChangesAsync();
+            //TODO: ...in extention
+            contact.FullName = item.FullName;
+		    contact.PhoneNumber = item.PhoneNumber;
+		    contact.Email = item.Email;
+		    contact.Address = item.Address;
 
-        }
+		    _dbContext.Contacts.Update(contact);
 
-        public async Task CreateCollection(List<Contact> items)
+			var count = await _dbContext.SaveChangesAsync();
+
+			return count > 0 ? true : false;
+		}
+
+        public async Task<bool> CreateCollectionAsync(List<Contact> items)
         {
-            _dbContext.AddRange(items);
-            await _dbContext.SaveChangesAsync();
-        }
-    }
+            await _dbContext.AddRangeAsync(items);
+
+			var result = await _dbContext.SaveChangesAsync();
+
+			return result == items.Count ? true : false;
+		}
+
+		public async Task<List<Contact>> GetAllAsync()
+		{
+			return await _dbContext.Contacts.ToListAsync();
+		}
+
+		public async Task<Contact?> GetByIDAsync(int id)
+		{
+			var contact = await _dbContext.Contacts.FirstOrDefaultAsync(x => x.ContactId == id);
+
+			return contact;
+		}
+	}
 }
