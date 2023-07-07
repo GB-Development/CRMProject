@@ -49,11 +49,10 @@ namespace CRM.WebClient.Controllers
         }
 
         [Authorize]
-        public async Task<IActionResult> LogoutAsync()
+        public async Task LogoutAsync()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync("Cookies");
             await HttpContext.SignOutAsync("oidc");
-            return RedirectToAction("Index", "Home");
         }
 
         [Authorize]
