@@ -19,59 +19,76 @@ namespace CRM.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<List<Company>>> GetAll()
+        [HttpGet("GetAll"),
+		ProducesResponseType(typeof(ActionResult<List<Company>>),
+		StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<Company>>> GetAllComponiesAsync()
         {
             var result = await _companyRepository.GetAllAsync();
+
             return Ok(result);
         }
 
 		[HttpPost("Сreate"),
-		ProducesResponseType(typeof(ActionResult<string>),
+		ProducesResponseType(typeof(ActionResult<int>),
 		StatusCodes.Status200OK)]
-		public async Task<ActionResult<string>> Create([FromBody] CompanyCreateDto item)
+		public async Task<ActionResult<int>> CreateCompanyAsync([FromBody] CompanyCreateDto item)
         {
+            if (!ModelState.IsValid)
+                return Ok(0);
+
             var company = _mapper.Map<Company>(item);
 
             if (company == null)
-                return Ok("NULL");
+                return Ok(0);
 
             var result = await _companyRepository.CreateAsync(company);
 
             return Ok(result);
         }
 
-        [HttpPut("Update")]
-        public async Task<IActionResult> Update([FromBody] CompanyUpdateDto item)
+        [HttpPut("Update"),
+		ProducesResponseType(typeof(ActionResult<bool>),
+		StatusCodes.Status200OK)]
+        public async Task<ActionResult<bool>> UpdateCompanyAsync([FromBody] CompanyUpdateDto item)
         {
-            var company = _mapper.Map<Company>(item);
+			if (!ModelState.IsValid)
+				return Ok(false);
+
+			var company = _mapper.Map<Company>(item);
 
             if (company == null)
-                return NotFound();
+                return Ok(false);
 
-            await _companyRepository.UpdateAsync(company);
-            return Ok();
+            var result = await _companyRepository.UpdateAsync(company);
+
+            return Ok(result);
         }
 
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete([FromBody] CompanyDeleteDto item)
+        [HttpDelete("Delete"),
+		ProducesResponseType(typeof(ActionResult<bool>),
+		StatusCodes.Status200OK)]
+        public async Task<ActionResult<bool>> DeleteCompanyAsync([FromBody] CompanyDeleteDto item)
         {
-            var company = _mapper.Map<Company>(item);
+			if (!ModelState.IsValid)
+				return Ok(false);
+
+			var company = _mapper.Map<Company>(item);
 
             if (company == null)
-                return NotFound();
+                return Ok(false);
 
-            await _companyRepository.DeleteAsync(company);
-            return Ok();
+            var result = await _companyRepository.DeleteAsync(company);
+
+            return Ok(result);
         }
 
-        [HttpGet("GetByID")]
-        public async Task<ActionResult<Company>> GetByID(int id)
+        [HttpGet("GetByID"),
+		ProducesResponseType(typeof(ActionResult<Company>),
+		StatusCodes.Status200OK)]
+        public async Task<ActionResult<Company>> GetCompanyByIDAsync(int id)
         {
             var company = await _companyRepository.GetByIDAsync(id);
-
-            if (company == null)
-                return NotFound();
 
             return Ok(company);
         }

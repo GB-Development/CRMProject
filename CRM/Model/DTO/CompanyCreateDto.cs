@@ -6,7 +6,9 @@ namespace CRM.Model.DTO
 {
     public class CompanyCreateDto
     {
+        [Required]
         public string CompanyName { get; set; }
+        [Required]
         public string INN { get; set; }
         public string? KPP { get; set; }
         public string? OGRN { get; set; }
