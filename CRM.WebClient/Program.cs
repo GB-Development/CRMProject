@@ -35,6 +35,7 @@ namespace CRM.WebClient
                     options.ResponseType = "code";
 
                     options.SaveTokens = true;
+                    options.UsePkce = true;
 
                     options.Scope.Clear();
                     options.Scope.Add("openid");
@@ -43,6 +44,12 @@ namespace CRM.WebClient
                     options.Scope.Add("crm.api");
 
                     options.GetClaimsFromUserInfoEndpoint = true;
+
+                    options.Events.OnRedirectToIdentityProviderForSignOut = ctx =>
+                    {
+                        ctx.ProtocolMessage.PostLogoutRedirectUri = "https://localhost:5000/";
+                        return Task.CompletedTask;
+                    };
                 });
 
             // Add services to the container.
