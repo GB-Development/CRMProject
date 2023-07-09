@@ -20,8 +20,9 @@ namespace CRM.Services.Entities
         }
 
         /// <summary>
-        /// Представляет реализацию метода создания сущностей (компаний и контактов) при импорте (парсинге) файла Excel
+        /// Представляет реализацию метода создания сущностей (компаний и контактов) при импорте (парсинге ) файла Excel
         /// </summary>
+        /// 
         /// <param name="dtos">Список ДТО объектов, полученных при импорте (парсинге)</param>
         /// <returns></returns>
         public List<Company>? CreateEntities(List<CompanyExcelDTO>? dtos)
@@ -36,6 +37,7 @@ namespace CRM.Services.Entities
                 List<Contact> contacts = new List<Contact>();
 
                 var phoneContactProps = _companyExcelDTOService.GetContactProps(1, dto);
+
                 var emailContactProps = _companyExcelDTOService.GetContactProps(2, dto);
 
                 foreach (var phone in phoneContactProps)
@@ -70,6 +72,7 @@ namespace CRM.Services.Entities
                     Contacts = contacts
                 });
             }
+            
 
             return companies;
         }

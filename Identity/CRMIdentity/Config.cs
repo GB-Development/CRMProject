@@ -63,7 +63,7 @@ namespace CRMIdentity
                     }
                 },
 
-                // interactive client using code flow + pkce
+                // interactive client using code flow + pkce\
                 new Client
                 {
                     ClientId = "web",
