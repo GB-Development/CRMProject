@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRMIdentity.Data", "..\Iden
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebClient", "..\Identity\WebClient\WebClient.csproj", "{9AF193A8-589F-44D4-B53D-7685AC8E44B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMWPF", "..\CRMWPF\WPFdevTest_02UsersApp\CRMWPF.csproj", "{419E5392-2125-4D5C-BC72-06DABB389152}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMWPF", "..\CRMWPF\CRMWPF\CRMWPF.csproj", "{419E5392-2125-4D5C-BC72-06DABB389152}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
