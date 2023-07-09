@@ -1,4 +1,4 @@
-﻿@model List<CrmDeal>;
+﻿@model List<CRM.CrmApi.Client.Deal>;
 
 @{
     ViewData["Title"] = "Workflow / Deals";
@@ -11,7 +11,7 @@
         </div>
         <h3 class="col-4" style="color: white; text-align: center;">@ViewData["Title"]</h3>
         <div class="col-4" style="text-align: center;">
-            <a href="#" class="btn btn-success">Add New Deal</a>
+            <a asp-action="Create" class="btn btn-success">Add New Deal</a>
         </div>
     </div>
 
@@ -27,16 +27,18 @@
             {
                 <div class="card m-1" style="background: rgba(100,100,155, 0.55);">
                     <div class="card-body" style="color: white;">
-                        <h5 class="card-title">@deal.ManagerId</h5>
+                        <h5 class="card-title mb-1">Manager-ID: @deal.ManagerId</h5>
+                        <hr />
                         <p class="card-text m-0">
-                            Название сделки: @deal.Company.CompanyName
+                            Компания для сделки: @deal.Company.CompanyName
                         </p>
                         <p class="card-text">
-                            Дата сделки: @deal.DateContact
+                            Дата следующего контакта: @deal.DateContact
                         </p>
                         <div class="btn-group col-12">
                             <a href="#" class="btn btn-success col-6">Подтвердить</a>
-                            <a href="#" class="btn btn-outline-danger col-6">Отменить</a>
+                            <a href="#" class="btn btn-outline-info col-6">Показать задачи по сделке</a>
+                            <a asp-action="Delete" asp-route-id="@deal.DealId" class="btn btn-outline-danger col-6">Отменить</a>
                         </div>
                     </div>
                 </div>

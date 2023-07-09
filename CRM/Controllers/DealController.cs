@@ -20,8 +20,8 @@ namespace CRM.Controllers
             _mapper = mapper;
         }
 
-		[HttpPost("Сreate"),
-		ProducesResponseType(typeof(ActionResult<int>),
+		[HttpPost("СreateDeal"),
+		ProducesResponseType(typeof(int),
 		StatusCodes.Status200OK)]
 		public async Task<ActionResult<int>> CreateDealAsync([FromBody] DealCreateDto item)
 		{
@@ -37,8 +37,8 @@ namespace CRM.Controllers
 			return Ok(result);
 		}
 
-		[HttpGet("GetAll"),
-		ProducesResponseType(typeof(ActionResult<List<Deal>>),
+		[HttpGet("GetAllDeals"),
+		ProducesResponseType(typeof(List<Deal>),
 		StatusCodes.Status200OK)]
 		public async Task<ActionResult<List<Deal>>> GetAllDealAsync()
 		{
@@ -47,8 +47,8 @@ namespace CRM.Controllers
 			return Ok(result);
 		}
 
-		[HttpPut("Update"),
-		ProducesResponseType(typeof(ActionResult<bool>),
+		[HttpPut("UpdateDeal"),
+		ProducesResponseType(typeof(bool),
 		StatusCodes.Status200OK)]
 		public async Task<ActionResult<bool>> UpdateDealAsync([FromBody] DealUpdateDto item)
 		{
@@ -65,8 +65,8 @@ namespace CRM.Controllers
 			return Ok(result);
 		}
 
-		[HttpDelete("Delete"),
-		ProducesResponseType(typeof(ActionResult<bool>),
+		[HttpDelete("DeleteDeal"),
+		ProducesResponseType(typeof(bool),
 		StatusCodes.Status200OK)]
 		public async Task<ActionResult<bool>> DeleteDealAsync([FromBody] DealDeleteDto item)
 		{
@@ -83,8 +83,8 @@ namespace CRM.Controllers
 			return Ok(result);
 		}
 
-		[HttpGet("GetByID"),
-		ProducesResponseType(typeof(ActionResult<Deal>),
+		[HttpGet("GetDealByID"),
+		ProducesResponseType(typeof(Deal),
 		StatusCodes.Status200OK)]
 		public async Task<ActionResult<Deal>> GetDealByIDAsync(int id)
 		{
@@ -93,8 +93,8 @@ namespace CRM.Controllers
 			return Ok(contact);
 		}
 
-        [HttpGet("GetByIDManager"),
-		ProducesResponseType(typeof(ActionResult<List<Deal>>),
+        [HttpGet("GetDealByIDManager"),
+		ProducesResponseType(typeof(List<Deal>),
 		StatusCodes.Status200OK)]
         public async Task<ActionResult<List<Deal>>> GetAllDealsByIDManagerAsync(string id)
         {

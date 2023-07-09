@@ -24,12 +24,12 @@ namespace CRM.Services.Repositories.Implementation
 
         public async Task<bool> DeleteAsync(Company item)
         {
-            var a = await _dbContext.Companies.FirstOrDefaultAsync(x => x.CompanyId == item.CompanyId);
+            var company = await _dbContext.Companies.FirstOrDefaultAsync(x => x.CompanyId == item.CompanyId);
 
-            if (a == null)
+            if (company == null)
                 return false;
 
-            _dbContext.Companies.Remove(a);
+            _dbContext.Companies.Remove(company);
 
             await _dbContext.SaveChangesAsync();
 
@@ -49,15 +49,15 @@ namespace CRM.Services.Repositories.Implementation
 
         public async Task<bool> UpdateAsync(Company item)
         {
-            var a = await _dbContext.Companies.FirstOrDefaultAsync(x => x.CompanyId == item.CompanyId);
+            var company = await _dbContext.Companies.FirstOrDefaultAsync(x => x.CompanyId == item.CompanyId);
 
-            if (a == null)
+            if (company == null)
                 return false;
 
-            a.INN = item.INN;
-            a.CompanyName = item.CompanyName;
+            company.INN = item.INN;
+            company.CompanyName = item.CompanyName;
 
-            _dbContext.Companies.Update(a);
+            _dbContext.Companies.Update(company);
 
             var count = await _dbContext.SaveChangesAsync();
 

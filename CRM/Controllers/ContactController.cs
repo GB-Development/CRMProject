@@ -19,8 +19,8 @@ namespace CRM.Controllers
             _mapper = mapper;
         }
 
-		[HttpPost("Сreate"),
-		ProducesResponseType(typeof(ActionResult<int>),
+		[HttpPost("СreateContact"),
+		ProducesResponseType(typeof(int),
 		StatusCodes.Status200OK)]
 		public async Task<ActionResult<int>> CreateContactAsync([FromBody] ContactCreateDto item)
         {
@@ -37,8 +37,8 @@ namespace CRM.Controllers
             return Ok(result);
         }
 
-		[HttpGet("GetAll"),
-		ProducesResponseType(typeof(ActionResult<List<Contact>>),
+		[HttpGet("GetAllContacts"),
+		ProducesResponseType(typeof(List<Contact>),
 		StatusCodes.Status200OK)]
 		public async Task<ActionResult<List<Contact>>> GetAllContactAsync()
 		{
@@ -47,8 +47,8 @@ namespace CRM.Controllers
 			return Ok(result);
 		}
 
-		[HttpPut("Update"),
-		ProducesResponseType(typeof(ActionResult<bool>),
+		[HttpPut("UpdateContact"),
+		ProducesResponseType(typeof(bool),
 		StatusCodes.Status200OK)]
 		public async Task<ActionResult<bool>> UpdateContactAsync([FromBody] ContactUpdateDto item)
 		{
@@ -65,8 +65,8 @@ namespace CRM.Controllers
 			return Ok(result);
 		}
 
-		[HttpDelete("Delete"),
-		ProducesResponseType(typeof(ActionResult<bool>),
+		[HttpDelete("DeleteContact"),
+		ProducesResponseType(typeof(bool),
 		StatusCodes.Status200OK)]
 		public async Task<ActionResult<bool>> DeleteContactAsync([FromBody] ContactDeleteDto item)
 		{
@@ -83,10 +83,9 @@ namespace CRM.Controllers
 			return Ok(result);
 		}
 
-		[HttpGet("GetByID"),
-		ProducesResponseType(typeof(ActionResult<Contact>),
-		StatusCodes.Status200OK)]
-		public async Task<ActionResult<Contact>> GetContactByIDAsync(int id)
+		[HttpGet("GetContactByID"),
+		ProducesResponseType(typeof(Contact),StatusCodes.Status200OK)]
+		public async Task<ActionResult<Contact?>> GetContactByIDAsync(int id)
 		{
 			var contact = await _contactRepository.GetByIDAsync(id);
 

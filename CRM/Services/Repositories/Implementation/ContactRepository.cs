@@ -15,6 +15,10 @@ namespace CRM.Services.Repositories.Implementation
 
         public async Task<int> CreateAsync(Contact item)
         {
+            if (_dbContext.Companies.FirstOrDefault(x => x.CompanyId == item.CompanyId) == null)
+            {
+                return 0;
+            }
             var result = await _dbContext.Contacts.AddAsync(item);
 
             await _dbContext.SaveChangesAsync();
@@ -24,12 +28,12 @@ namespace CRM.Services.Repositories.Implementation
 
         public async Task<bool> DeleteAsync(Contact item)
         {
-            var contact = await _dbContext.Contacts.FirstOrDefaultAsync(x => x.ContactId == item.ContactId && x.CompanyId == item.CompanyId);
+            var contact = await _dbContext.Contacts.FirstOrDefaultAsync(x => x.ContactId == item.ContactId);
 
             if (contact == null)
                 return false;
 
-            _dbContext.Contacts.Remove(item);
+            _dbContext.Contacts.Remove(contact);
 
             await _dbContext.SaveChangesAsync();
 

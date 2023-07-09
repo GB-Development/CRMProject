@@ -1,5 +1,4 @@
-﻿using CRM.CRMapi.Client;
-using CRM.WebClient.Models;
+﻿using CRM.CrmApi.Client;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -9,13 +8,14 @@ namespace CRM.WebClient.Controllers
     [Authorize]
     public class CompanyController : Controller
     {
-        private readonly CrmClient _client;
+        private readonly CrmApiClient _client;
 
-        public CompanyController(CrmClient client)
+        public CompanyController(CrmApiClient client)
         {
             _client = client;
         }
 
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -24,35 +24,29 @@ namespace CRM.WebClient.Controllers
         [HttpPost]
 		public async Task<IActionResult> Create(CompanyCreateDto company)
 		{
-            await _client.CreateAsync(company);
+            var result = await _client.СreateComponyAsync(company);
+
+            if (result == 0)
+            {
+                ModelState.AddModelError("", "Error added new conpamy, return code 0");
+
+                return View(company);
+            }
 
 			return RedirectToAction("Index");
 		}
 
 		public async Task<IActionResult> Index()
         {
-            var companies = await _client.GetAllAllAsync();
-            List<CrmCompany> companies2 = new List<CrmCompany>();
+            var companies = await _client.GetAllComponiesAsync();
 
-            foreach (var companyApi in companies)
-            {
-                var clientCompany = new CrmCompany
-                {
-                    CompanyName = companyApi.CompanyName,
-                    CompanyId = companyApi.CompanyId,
-                    INN = companyApi.Inn
-                };
-                companies2.Add(clientCompany);
-            }
-
-
-            return View(companies2);
+            return View(companies);
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-            var company = await _client.GetByIDAsync(id);
+            var company = await _client.GetComponyByIDAsync(id);
             if (company is null)
             {
                 return NotFound();
@@ -64,19 +58,26 @@ namespace CRM.WebClient.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Company company)
         {
-            await _client.UpdateAsync(new CompanyUpdateDto
+            var result = await _client.UpdateComponyAsync(new CompanyUpdateDto
             {
                 CompanyId=company.CompanyId,
                 CompanyName=company.CompanyName,
                 Inn=company.Inn
             });
 
+            if (!result)
+            {
+                ModelState.AddModelError("", "Error update company, result false.");
+
+                return View(company);
+            }
+
             return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Delete(int id)
         {
-            var company = await _client.GetByIDAsync(id);
+            var company = await _client.GetComponyByIDAsync(id);
             if (company is null)
             {
                 return NotFound();
@@ -91,9 +92,16 @@ namespace CRM.WebClient.Controllers
         [HttpPost]
         public async Task<IActionResult> Delete(CompanyDeleteDto company)
         {
-            await _client.DeleteAsync(company);
+            var result = await _client.DeleteComponyAsync(company);
 
-            return RedirectToAction("Index");
+			if (!result)
+			{
+				ModelState.AddModelError("", "Error delete company, result false.");
+
+				return View(company);
+			}
+
+			return RedirectToAction("Index");
         }
     }
 }

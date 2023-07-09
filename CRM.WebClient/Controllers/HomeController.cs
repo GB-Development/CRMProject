@@ -56,17 +56,16 @@ namespace CRM.WebClient.Controllers
         }
 
         [Authorize]
-        [HttpGet]
         public IActionResult Registry()
         {
-            return View();
+            return View(new RegistryModel());
         }
 
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> Registry(RegistryModel registryModel)
         {
-            if (registryModel == null) { return View(); }
+            if (registryModel == null) { return View("Registry", new RegistryModel()); }
             if (!ModelState.IsValid)
             {
                 return View(registryModel);

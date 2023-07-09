@@ -8,4 +8,5 @@ public class CrmContact
     public string? Email { get; set; }
     public string? Address { get; set; }
     public int CompanyId { get; set; }
+    public string CompanyName { get; set;}
 }

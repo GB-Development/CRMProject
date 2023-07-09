@@ -19,8 +19,8 @@ namespace CRM.Controllers
             _mapper = mapper;
         }
 
-        [HttpGet("GetAll"),
-		ProducesResponseType(typeof(ActionResult<List<Company>>),
+        [HttpGet("GetAllComponies"),
+		ProducesResponseType(typeof(List<Company>),
 		StatusCodes.Status200OK)]
         public async Task<ActionResult<List<Company>>> GetAllComponiesAsync()
         {
@@ -29,8 +29,8 @@ namespace CRM.Controllers
             return Ok(result);
         }
 
-		[HttpPost("Сreate"),
-		ProducesResponseType(typeof(ActionResult<int>),
+		[HttpPost("СreateCompony"),
+		ProducesResponseType(typeof(int),
 		StatusCodes.Status200OK)]
 		public async Task<ActionResult<int>> CreateCompanyAsync([FromBody] CompanyCreateDto item)
         {
@@ -47,8 +47,8 @@ namespace CRM.Controllers
             return Ok(result);
         }
 
-        [HttpPut("Update"),
-		ProducesResponseType(typeof(ActionResult<bool>),
+        [HttpPut("UpdateCompony"),
+		ProducesResponseType(typeof(bool),
 		StatusCodes.Status200OK)]
         public async Task<ActionResult<bool>> UpdateCompanyAsync([FromBody] CompanyUpdateDto item)
         {
@@ -65,8 +65,8 @@ namespace CRM.Controllers
             return Ok(result);
         }
 
-        [HttpDelete("Delete"),
-		ProducesResponseType(typeof(ActionResult<bool>),
+        [HttpDelete("DeleteCompony"),
+		ProducesResponseType(typeof(bool),
 		StatusCodes.Status200OK)]
         public async Task<ActionResult<bool>> DeleteCompanyAsync([FromBody] CompanyDeleteDto item)
         {
@@ -83,8 +83,8 @@ namespace CRM.Controllers
             return Ok(result);
         }
 
-        [HttpGet("GetByID"),
-		ProducesResponseType(typeof(ActionResult<Company>),
+        [HttpGet("GetComponyByID"),
+		ProducesResponseType(typeof(Company),
 		StatusCodes.Status200OK)]
         public async Task<ActionResult<Company>> GetCompanyByIDAsync(int id)
         {

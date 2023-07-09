@@ -14,7 +14,7 @@
     <OpenApiReference Include="OpenAPIs\swagger.json" CodeGenerator="NSwagCSharp" Namespace="CRM.IdentityServer.Client" ClassName="RegistryClient">
       <SourceUri>https://localhost:5001/swagger/v1/swagger.json</SourceUri>
     </OpenApiReference>
-    <OpenApiReference Include="OpenAPIs\swagger1.json" CodeGenerator="NSwagCSharp" Namespace="CRM.CRMapi.Client" ClassName="CrmClient">
+    <OpenApiReference Include="OpenAPIs\swagger3.json" CodeGenerator="NSwagCSharp" Namespace="CRM.CrmApi.Client" ClassName="CrmApiClient">
       <SourceUri>https://localhost:7255/swagger/v1/swagger.json</SourceUri>
     </OpenApiReference>
   </ItemGroup>

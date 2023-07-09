@@ -48,7 +48,7 @@ namespace CRM.Services.Repositories.Implementation
             if (deal == null)
                 return false;
 
-            _dbContext.Deals.Remove(item);
+            _dbContext.Deals.Remove(deal);
 
             await _dbContext.SaveChangesAsync();
 
@@ -67,7 +67,7 @@ namespace CRM.Services.Repositories.Implementation
             deal.Company = await _dbContext.Companies.FirstOrDefaultAsync(c => c.CompanyId == item.CompanyId);
             deal.DateContact = item.DateContact;
 
-            _dbContext.Deals.Update(item);
+            _dbContext.Deals.Update(deal);
 
 			var count = await _dbContext.SaveChangesAsync();
 

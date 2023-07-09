@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "paths": {
-    "/api/company/GetAll": {
+    "/api/Company/GetAllComponies": {
       "get": {
         "tags": [
           "Company"
@@ -43,7 +43,7 @@
         }
       }
     },
-    "/api/company/Create": {
+    "/api/Company/СreateCompony": {
       "post": {
         "tags": [
           "Company"
@@ -69,12 +69,32 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/company/Update": {
+    "/api/Company/UpdateCompony": {
       "put": {
         "tags": [
           "Company"
@@ -100,12 +120,29 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/company/Delete": {
+    "/api/Company/DeleteCompony": {
       "delete": {
         "tags": [
           "Company"
@@ -131,12 +168,29 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/company/GetByID": {
+    "/api/Company/GetComponyByID": {
       "get": {
         "tags": [
           "Company"
@@ -176,7 +230,7 @@
         }
       }
     },
-    "/api/contact/Create": {
+    "/api/Contact/СreateContact": {
       "post": {
         "tags": [
           "Contact"
@@ -202,12 +256,70 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/contact/Update": {
+    "/api/Contact/GetAllContacts": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Contact"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Contact"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Contact"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Contact/UpdateContact": {
       "put": {
         "tags": [
           "Contact"
@@ -233,12 +345,29 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/contact/Delete": {
+    "/api/Contact/DeleteContact": {
       "delete": {
         "tags": [
           "Contact"
@@ -264,12 +393,69 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/deal/Create": {
+    "/api/Contact/GetContactByID": {
+      "get": {
+        "tags": [
+          "Contact"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "style": "form",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contact"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contact"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Contact"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Deal/СreateDeal": {
       "post": {
         "tags": [
           "Deal"
@@ -295,86 +481,166 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/deal/Update": {
-      "put": {
-        "tags": [
-          "Deal"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DealUpdateDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DealUpdateDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/DealUpdateDto"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "integer",
+                  "format": "int32"
+                }
               }
             }
           }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
         }
       }
     },
-    "/api/deal/Delete": {
-      "delete": {
-        "tags": [
-          "Deal"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DealDeleteDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/DealDeleteDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/DealDeleteDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/deal/GetAll": {
+    "/api/Deal/GetAllDeals": {
       "get": {
         "tags": [
           "Deal"
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Deal"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Deal"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Deal"
+                  }
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/deal/GetByID": {
+    "/api/Deal/UpdateDeal": {
+      "put": {
+        "tags": [
+          "Deal"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DealUpdateDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DealUpdateDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DealUpdateDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Deal/DeleteDeal": {
+      "delete": {
+        "tags": [
+          "Deal"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DealDeleteDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DealDeleteDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/DealDeleteDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Deal/GetDealByID": {
       "get": {
         "tags": [
           "Deal"
@@ -392,12 +658,29 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/Deal"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Deal"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Deal"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/deal/GetByIDManager": {
+    "/api/Deal/GetDealByIDManager": {
       "get": {
         "tags": [
           "Deal"
@@ -414,7 +697,33 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Deal"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Deal"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Deal"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -595,57 +904,27 @@
         "additionalProperties": false
       },
       "CompanyCreateDto": {
+        "required": [
+          "companyName",
+          "inn"
+        ],
         "type": "object",
         "properties": {
           "companyName": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "inn": {
-            "type": "string",
-            "nullable": true
-          },
-          "kpp": {
-            "type": "string",
-            "nullable": true
-          },
-          "ogrn": {
-            "type": "string",
-            "nullable": true
-          },
-          "directorName": {
-            "type": "string",
-            "nullable": true
-          },
-          "directorPost": {
-            "type": "string",
-            "nullable": true
-          },
-          "address": {
-            "type": "string",
-            "nullable": true
-          },
-          "webSite": {
-            "type": "string",
-            "nullable": true
-          },
-          "dateRegister": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "regionRegister": {
-            "type": "string",
-            "nullable": true
-          },
-          "mainActivity": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           }
         },
         "additionalProperties": false
       },
       "CompanyDeleteDto": {
+        "required": [
+          "companyId"
+        ],
         "type": "object",
         "properties": {
           "companyId": {
@@ -656,6 +935,10 @@
         "additionalProperties": false
       },
       "CompanyUpdateDto": {
+        "required": [
+          "companyId",
+          "companyName"
+        ],
         "type": "object",
         "properties": {
           "companyId": {
@@ -663,8 +946,8 @@
             "format": "int32"
           },
           "companyName": {
-            "type": "string",
-            "nullable": true
+            "minLength": 1,
+            "type": "string"
           },
           "inn": {
             "type": "string",
@@ -813,20 +1096,57 @@
         },
         "additionalProperties": false
       },
-      "DealCreateDto": {
+      "Deal": {
         "type": "object",
         "properties": {
+          "dealId": {
+            "type": "integer",
+            "format": "int32"
+          },
           "managerId": {
             "type": "string",
             "nullable": true
           },
+          "companyId": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
           "company": {
-            "$ref": "#/components/schemas/CompanyCreateDto"
+            "$ref": "#/components/schemas/Company"
+          },
+          "dateCreate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           },
           "dateContact": {
             "type": "string",
             "format": "date-time",
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DealCreateDto": {
+        "required": [
+          "companyId",
+          "dateContact",
+          "managerId"
+        ],
+        "type": "object",
+        "properties": {
+          "managerId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "companyId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dateContact": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -852,8 +1172,9 @@
             "type": "string",
             "nullable": true
           },
-          "company": {
-            "$ref": "#/components/schemas/Company"
+          "companyId": {
+            "type": "integer",
+            "format": "int32"
           },
           "dateCreate": {
             "type": "string",

@@ -11,11 +11,5 @@ namespace CRM.WebClient.Controllers
         {
             return View();
         }
-
-        public IActionResult Deal()
-        {
-            List<CrmDeal> tasks = new List<CrmDeal>();
-            return View(tasks);
-        }
     }
 }

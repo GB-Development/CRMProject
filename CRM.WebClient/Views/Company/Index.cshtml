@@ -1,4 +1,4 @@
-﻿@model List<CrmCompany>;
+﻿@model List<CRM.CrmApi.Client.Company>;
 
 @{
     ViewData["Title"] = "Workflow / Company";
@@ -37,7 +37,7 @@
                     <p class="col-7 m-0">
                         <a asp-action="Edit" asp-route-id="@company.CompanyId">@company.CompanyName</a>
                     </p>
-                    <p class="col-3 m-0">@company.INN</p>
+                    <p class="col-3 m-0">@company.Inn</p>
                     <p class="col-1 m-0">
                         <a asp-action="Delete" asp-route-id="@company.CompanyId" class="btn btn-outline-danger btn-sm">Delete</a>
                     </p>
