@@ -1,18 +1,14 @@
 using CRM.Data;
-using CRM.Migrations;
 using CRM.Model.Entities;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 
 namespace CRM.Services.Repositories.Implementation
 {
-    /// <summary>
-    /// Представляет реализацию репозитория для работы с объектами типа  <see cref="Deal"/>
-    /// </summary>
-    public class DealRepository : IDealRepository
+	/// <summary>
+	/// Представляет реализацию репозитория для работы с объектами типа  <see cref="Deal"/>
+	/// </summary>
+	public class DealRepository : IDealRepository
 
     {
         private readonly ApplicationDbContext _dbContext;
@@ -34,100 +30,98 @@ namespace CRM.Services.Repositories.Implementation
         public void Create(Deal item) { }
 
 
-        public async Task CreateAsync(Deal item)
-
+        public async Task<int> CreateAsync(Deal item)
         {
-            if (item.Company == null)
-                return;
-
-            var company = await _dbContext.Companies.FirstOrDefaultAsync(x => x.INN == item.Company.INN);
-
-            if (company == null)
-            {
-                _dbContext.Companies.Add(item.Company);
-                _dbContext.SaveChanges();
-            }
-
-            company = await _dbContext.Companies.FirstOrDefaultAsync(x => x.INN == item.Company.INN);
-
-            if (company == null)
-                return;
-            
             item.DateCreate = DateTime.Now;
-            await _dbContext.Deals.AddAsync(item);
+
+            var result = await _dbContext.Deals.AddAsync(item);
+
             await _dbContext.SaveChangesAsync();
+
+            return result.Entity.DealId;
         }
 
-        public async Task DeleteAsync(Deal item)
+        public async Task<bool> DeleteAsync(Deal item)
         {
             var deal = await _dbContext.Deals.FirstOrDefaultAsync(x => x.DealId == item.DealId);
 
             if (deal == null)
-                return;
+                return false;
 
-            _dbContext.Deals.Remove(item);
+            _dbContext.Deals.Remove(deal);
+
             await _dbContext.SaveChangesAsync();
+
+            return true;
         }
 
-        public async Task UpdateAsync(Deal item)
+        public async Task<bool> UpdateAsync(Deal item)
         {
             var deal = await _dbContext.Deals.FirstOrDefaultAsync(x => x.DealId == item.DealId);
 
             if (deal == null)
-                return;
+                return false;
 
-            if (item.Company == null)
-                return;
+            deal.ManagerId = item.ManagerId;
+            deal.CompanyId = item.CompanyId;
+            deal.Company = await _dbContext.Companies.FirstOrDefaultAsync(c => c.CompanyId == item.CompanyId);
+            deal.DateContact = item.DateContact;
 
-            var company = await _dbContext.Companies.FirstOrDefaultAsync(x => x.INN == item.Company.INN);
+            _dbContext.Deals.Update(deal);
 
-            if (company == null)
-            {
-                _dbContext.Companies.Add(item.Company);
-                _dbContext.SaveChanges();
-            }
+			var count = await _dbContext.SaveChangesAsync();
 
-            company = _dbContext.Companies.FirstOrDefault(x => x.INN == item.Company.INN);
-
-            if (company == null)
-                return;
-
-            _dbContext.Deals.Update(item);
-            await _dbContext.SaveChangesAsync();
-        }
+			return count > 0 ? true : false;
+		}
 
         public async Task<List<Deal>> GetAllAsync()
         {
-            return await _dbContext.Deals.Include(y => y.Company).Include(x => x.Company.Contacts).ToListAsync();
+            return await _dbContext.Deals
+                .Include(y => y.Company)
+                .ThenInclude(x => x.Contacts)
+                .ToListAsync();
         }
 
-        public async Task<Deal> GetByIdAsync(int id)
+        public async Task<Deal?> GetByIDAsync(int id)
         {
-            var deal = await _dbContext.Deals.Include(y => y.Company).Include(x => x.Company.Contacts).FirstOrDefaultAsync(x => x.DealId == id);
+            var deal = await _dbContext.Deals
+                .Include(y => y.Company)
+                .ThenInclude(x => x.Contacts)
+                .FirstOrDefaultAsync(x => x.DealId == id);
+
             return deal;
         }
 
         public async Task<List<Deal>> GetAllByIdManagerAsync(string id)
         {
-            var deals = await _dbContext.Deals.Include(y => y.Company).Include(x => x.Company.Contacts).Where(x => x.ManagerId == id).ToListAsync();
+            var deals = await _dbContext.Deals
+                .Include(y => y.Company)
+                .ThenInclude(x => x.Contacts)
+                .Where(x => x.ManagerId == id)
+                .ToListAsync();
+
             return deals;
         }
-        public async Task CreateCollection(List<Deal> items)
+        public async Task<bool> CreateCollectionAsync(List<Deal> items)
         {
-            _dbContext.AddRange(items);
-            await _dbContext.SaveChangesAsync();
-        }
+            await _dbContext.AddRangeAsync(items);
+
+			var result = await _dbContext.SaveChangesAsync();
+
+			return result == items.Count ? true : false;
+		}
 
 
         /// <summary>
         /// Представляет реализацию метода чтения коллекции объектов типа <see cref="Deal"/> в БД
         /// </summary>
         /// <param name="items"></param>
-        public List<Deal> ReadCollection()
+        public async Task<List<Deal>> ReadCollectionAsync()
         {
-            return _dbContext.Deals.ToList();
-            //не пойму ни как что правильнее return _dbContext.Find<List<Deal>>(); и вообще совсем не то!
+            return await _dbContext.Deals
+                .Include(x => x.Company)
+                .ThenInclude(x => x.Contacts)
+                .ToListAsync();
         }
-
-    }
+	}
 }

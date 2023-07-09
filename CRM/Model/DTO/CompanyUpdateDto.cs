@@ -1,8 +1,12 @@
-﻿namespace CRM.Model.DTO
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace CRM.Model.DTO
 {
     public class CompanyUpdateDto
     {
+        [Required]
         public int CompanyId { get; set; }
+        [Required]
         public string CompanyName { get; set; }
         public string INN { get; set; }
         public string? KPP { get; set; }

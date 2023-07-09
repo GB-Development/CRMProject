@@ -15,7 +15,9 @@
       "launchBrowser": true,
       "launchUrl": "swagger",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "Development"
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "POSTGRESQL_CONNECTION_STRING": "Server=192.168.99.100;Port=5432;Userid=crmuser;Password=1234;Pooling=false;Timeout=15;Database=crm_db"
+
       },
       "dotnetRunMessages": true,
       "applicationUrl": "https://localhost:7255;http://localhost:5271"

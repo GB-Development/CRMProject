@@ -1,62 +1,96 @@
 ﻿using AutoMapper;
-using CRM.Data;
 using CRM.Model.DTO;
 using CRM.Model.Entities;
-using CRM.Services.Interfaces;
 using CRM.Services.Repositories;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CRM.Controllers
 {
-    [Route("api/contact")]
+	[Route("api/[controller]")]
     public class ContactController : Controller
     {
-        private readonly IContactRepository _dbContext;
+        private readonly IContactRepository _contactRepository;
         private readonly IMapper _mapper;
 
-        public ContactController(IContactRepository dbContext,
+        public ContactController(IContactRepository contactRepository,
             IMapper mapper)
         {
-            _dbContext = dbContext;
+            _contactRepository = contactRepository;
             _mapper = mapper;
         }
 
-        [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody] ContactCreateDto item)
+		[HttpPost("СreateContact"),
+		ProducesResponseType(typeof(int),
+		StatusCodes.Status200OK)]
+		public async Task<ActionResult<int>> CreateContactAsync([FromBody] ContactCreateDto item)
         {
-            var contact = _mapper.Map<Contact>(item);
+			if (!ModelState.IsValid)
+				return Ok(0);
 
-            if (contact == null)
-                return NotFound();
+			var contact = _mapper.Map<Contact>(item);
 
-            await _dbContext.CreateAsync(contact);
-            return Ok();
+			if (contact == null)
+				return Ok(0);
+
+			var result = await _contactRepository.CreateAsync(contact);
+
+            return Ok(result);
         }
 
-        [HttpPut("Update")]
-        public async Task<IActionResult> Update([FromBody] ContactUpdateDto item)
-        {
-            var contact = _mapper.Map<Contact>(item);
+		[HttpGet("GetAllContacts"),
+		ProducesResponseType(typeof(List<Contact>),
+		StatusCodes.Status200OK)]
+		public async Task<ActionResult<List<Contact>>> GetAllContactAsync()
+		{
+			var result = await _contactRepository.GetAllAsync();
 
-            if (contact == null)
-                return NotFound();
+			return Ok(result);
+		}
 
-            await _dbContext.UpdateAsync(contact);
-            return Ok();
-        }
+		[HttpPut("UpdateContact"),
+		ProducesResponseType(typeof(bool),
+		StatusCodes.Status200OK)]
+		public async Task<ActionResult<bool>> UpdateContactAsync([FromBody] ContactUpdateDto item)
+		{
+			if (!ModelState.IsValid)
+				return Ok(false);
 
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete([FromBody] ContactDeleteDto item)
-        {
-            var contact = _mapper.Map<Contact>(item);
+			var contact = _mapper.Map<Contact>(item);
 
-            if (contact == null)
-                return NotFound();
+			if (contact == null)
+				return Ok(false);
 
-            await _dbContext.DeleteAsync(contact);
-            return Ok();
-        }
+			var result = await _contactRepository.UpdateAsync(contact);
 
-    }
+			return Ok(result);
+		}
+
+		[HttpDelete("DeleteContact"),
+		ProducesResponseType(typeof(bool),
+		StatusCodes.Status200OK)]
+		public async Task<ActionResult<bool>> DeleteContactAsync([FromBody] ContactDeleteDto item)
+		{
+			if (!ModelState.IsValid)
+				return Ok(false);
+
+			var contact = _mapper.Map<Contact>(item);
+
+			if (contact == null)
+				return Ok(false);
+
+			var result = await _contactRepository.DeleteAsync(contact);
+
+			return Ok(result);
+		}
+
+		[HttpGet("GetContactByID"),
+		ProducesResponseType(typeof(Contact),StatusCodes.Status200OK)]
+		public async Task<ActionResult<Contact?>> GetContactByIDAsync(int id)
+		{
+			var contact = await _contactRepository.GetByIDAsync(id);
+
+			return Ok(contact);
+		}
+
+	}
 }

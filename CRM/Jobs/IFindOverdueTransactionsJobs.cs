@@ -4,6 +4,6 @@ namespace CRM.Jobs
 {
     public interface IFindOverdueTransactionsJobs
     {
-        List<Deal> FindTransaction();
+        Task<List<Deal>> FindTransaction();
     }
 }

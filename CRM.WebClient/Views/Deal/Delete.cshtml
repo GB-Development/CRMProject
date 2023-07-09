@@ -1,0 +1,33 @@
+﻿@model CRM.CrmApi.Client.DealDeleteDto
+@{
+    Layout = "~/Views/Workflow/_LayoutWorkflow.cshtml";
+    ViewBag.Title = "Отменить сделку";
+}
+<div class="container d-flex align-items-center flex-column mt-5" style="color: white;">
+    <h1>Отменить сделку</h1>
+
+    <div >
+        <h4>Действительно отменить данную сделку?</h4>
+        <hr />
+        <dl class="row justify-content-center">
+            <dt class="col-sm-6">
+                @Html.DisplayNameFor(model => model.DealId)
+            </dt>
+            <dd class="col-sm-6">
+                @Html.DisplayFor(model => model.DealId)
+            </dd>
+        </dl>
+    </div>
+
+    <form asp-action="Delete" method="post">
+        <input asp-for="@Model.DealId" hidden />
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+
+    <hr />
+
+    <div>
+        <a asp-action="Index">Назад</a>
+    </div>
+</div>
+
