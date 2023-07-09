@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CRMIdentity.Data", "..\Iden
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebClient", "..\Identity\WebClient\WebClient.csproj", "{9AF193A8-589F-44D4-B53D-7685AC8E44B8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WPFtoCRM", "..\WPFtoCRM\WPFtoCRM.csproj", "{E8D80793-122C-4B90-AEA2-C9F6B35B3724}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CRMWPF", "..\CRMWPF\WPFdevTest_02UsersApp\CRMWPF.csproj", "{419E5392-2125-4D5C-BC72-06DABB389152}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +37,10 @@ Global
 		{9AF193A8-589F-44D4-B53D-7685AC8E44B8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9AF193A8-589F-44D4-B53D-7685AC8E44B8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9AF193A8-589F-44D4-B53D-7685AC8E44B8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E8D80793-122C-4B90-AEA2-C9F6B35B3724}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E8D80793-122C-4B90-AEA2-C9F6B35B3724}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E8D80793-122C-4B90-AEA2-C9F6B35B3724}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E8D80793-122C-4B90-AEA2-C9F6B35B3724}.Release|Any CPU.Build.0 = Release|Any CPU
+		{419E5392-2125-4D5C-BC72-06DABB389152}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{419E5392-2125-4D5C-BC72-06DABB389152}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{419E5392-2125-4D5C-BC72-06DABB389152}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{419E5392-2125-4D5C-BC72-06DABB389152}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

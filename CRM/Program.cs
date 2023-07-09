@@ -27,13 +27,13 @@ System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Inst
 
 #region Hangfire Service
 
-builder.Services.AddHangfire(config => config
- .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
- .UseSimpleAssemblyNameTypeSerializer()
- .UseRecommendedSerializerSettings()
- .UsePostgreSqlStorage(Environment.GetEnvironmentVariable("POSTGRESQL_CONNECTION_STRING")));
+//builder.Services.AddHangfire(config => config
+// .SetDataCompatibilityLevel(CompatibilityLevel.Version_180)
+// .UseSimpleAssemblyNameTypeSerializer()
+// .UseRecommendedSerializerSettings()
+// .UsePostgreSqlStorage(Environment.GetEnvironmentVariable("POSTGRESQL_CONNECTION_STRING")));
 
-builder.Services.AddHangfireServer();
+//builder.Services.AddHangfireServer();
 
 #endregion
 
@@ -87,8 +87,8 @@ app.UseAuthorization();
 
 app.UseRouting();
 
-app.UseHangfireDashboard("/CrmJobsDashboard");
-app.UseEndpoints(e => e.MapHangfireDashboard());
+//app.UseHangfireDashboard("/CrmJobsDashboard");
+//app.UseEndpoints(e => e.MapHangfireDashboard());
 
 app.MapControllers();
 
