@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using CRM.Controllers;
 using CRM.Model.DTO;
 using CRM.Model.Entities;
 
@@ -7,7 +6,7 @@ namespace CRM
 
 
 {
-    public class MappingConfig : Profile
+	public class MappingConfig : Profile
     {
         public MappingConfig() 
         {

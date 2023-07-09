@@ -7,10 +7,6 @@ namespace CRM.Services.Repositories
     /// </summary>
     public interface ICompanyRepository : IRepository<Company>
     {
-        Task<List<Company>> GetAllAsync();
-
-        Task<Company?> GetByIDAsync(int id);
-
-        Task CreateCollection(List<Company> items);
+        
     }
 }

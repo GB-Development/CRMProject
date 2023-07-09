@@ -1,0 +1,105 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - CRM.WebClient</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/CRM.WebClient.styles.css" asp-append-version="true" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@300;400;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm box-shadow mb-3">
+            <div class="container-fluid gx-5">
+                <a class="navbar-brand fw-bold fs-1" asp-area="" asp-controller="Home" asp-action="Index">LOGO</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse justify-content-center">
+                    <ul class="navbar-nav flex-grow-1 justify-content-center align-items-center fs-4">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Main</a>
+                        </li>
+                        <li>
+                            |
+                        </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Workflow" asp-action="Index">Workflow</a>
+                            </li>
+                            <li>
+                                |
+                            </li>
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Contacts">Contacts</a>
+                        </li>
+                        <li>
+                            |
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Team">Team</a>
+                        </li>
+                    </ul>
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <a class="btn btn-purple" asp-area="" asp-controller="Home" asp-action="Login">Login \ Sing Up</a>
+                    }
+                    else
+                    {
+                        <div class="account-info" >
+                            <div class="btn-group" role="group" aria-label="группа кнопок аккаунта">
+                                @{
+                                    var claimName = User.Claims.FirstOrDefault(x => x.Type == "name");
+                                    var userName = claimName is not null ? claimName.Value : "None";
+                                }
+                                <button class="btn btn-purple" style="min-width: 200px;">
+                                    <div style="z-index: 1005; position:absolute; top: -20px; left: -38px; background: #FFFFFF; width: 76px; height: 76px; border-radius: 50%;">
+                                        <div style="position:relative; top: 3px; left: 3px; background: #D9D9D9; width: 70px; height: 70px; border-radius: 50%;"></div>
+                                    </div>
+                                    Hi, @userName
+                                </button>
+                                <button class="btn btn-purple dropdown" style="border-left: solid; border-color: white; border-radius: 0 5px 5px 0; font-weight: bold;" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    ...
+                                </button>
+
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                                    @if (User.Claims.FirstOrDefault(x => x.Value.Contains("admin")) is not null)
+                                    {
+                                        <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Registry">Add new User</a></li>
+                                    }
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Logout">Log out</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container m-5">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="footer text-muted text-center">
+        <div class="container">
+            GB#команда 2 &copy; 2023 Все права защищены
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

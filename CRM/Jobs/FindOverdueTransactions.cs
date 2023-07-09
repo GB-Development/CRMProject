@@ -12,9 +12,9 @@ namespace CRM.Jobs
             _dealRepository = dealRepository;
         }
 
-        public List<Deal> FindTransaction()
+        public async Task<List<Deal>> FindTransaction()
         {
-            List<Deal> list = _dealRepository.ReadCollection();
+            List<Deal> list = await _dealRepository.ReadCollectionAsync();
             var listNotification = list.Where(x => x.DateContact < DateTime.Now).ToList();
             return listNotification;
         }

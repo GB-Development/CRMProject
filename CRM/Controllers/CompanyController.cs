@@ -1,77 +1,94 @@
 ﻿using AutoMapper;
-using CRM.Data;
 using CRM.Model.DTO;
 using CRM.Model.Entities;
-using CRM.Services.Interfaces;
 using CRM.Services.Repositories;
-using CRM.Services.Repositories.Implementation;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CRM.Controllers
 {
-    [Route("api/company")]
+	[Route("api/[controller]")]
     public class CompanyController : Controller
     {
-        private readonly ICompanyRepository _dbContext;
+        private readonly ICompanyRepository _companyRepository;
         private readonly IMapper _mapper;
 
-        public CompanyController(ICompanyRepository dbContext,
+        public CompanyController(ICompanyRepository companyRepository,
             IMapper mapper)
         {
-            _dbContext = dbContext;
+            _companyRepository = companyRepository;
             _mapper = mapper;
         }
 
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
+        [HttpGet("GetAllComponies"),
+		ProducesResponseType(typeof(List<Company>),
+		StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<Company>>> GetAllComponiesAsync()
         {
-            return Ok(await _dbContext.GetAllAsync());
+            var result = await _companyRepository.GetAllAsync();
+
+            return Ok(result);
         }
 
-        [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody] CompanyCreateDto item)
+		[HttpPost("СreateCompony"),
+		ProducesResponseType(typeof(int),
+		StatusCodes.Status200OK)]
+		public async Task<ActionResult<int>> CreateCompanyAsync([FromBody] CompanyCreateDto item)
         {
+            if (!ModelState.IsValid)
+                return Ok(0);
+
             var company = _mapper.Map<Company>(item);
 
             if (company == null)
-                return NotFound();
+                return Ok(0);
 
-            await _dbContext.CreateAsync(company);
-            return Ok();
+            var result = await _companyRepository.CreateAsync(company);
+
+            return Ok(result);
         }
 
-        [HttpPut("Update")]
-        public async Task<IActionResult> Update([FromBody] CompanyUpdateDto item)
+        [HttpPut("UpdateCompony"),
+		ProducesResponseType(typeof(bool),
+		StatusCodes.Status200OK)]
+        public async Task<ActionResult<bool>> UpdateCompanyAsync([FromBody] CompanyUpdateDto item)
         {
-            var company = _mapper.Map<Company>(item);
+			if (!ModelState.IsValid)
+				return Ok(false);
+
+			var company = _mapper.Map<Company>(item);
 
             if (company == null)
-                return NotFound();
+                return Ok(false);
 
-            await _dbContext.UpdateAsync(company);
-            return Ok();
+            var result = await _companyRepository.UpdateAsync(company);
+
+            return Ok(result);
         }
 
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete([FromBody] CompanyDeleteDto item)
+        [HttpDelete("DeleteCompony"),
+		ProducesResponseType(typeof(bool),
+		StatusCodes.Status200OK)]
+        public async Task<ActionResult<bool>> DeleteCompanyAsync([FromBody] CompanyDeleteDto item)
         {
-            var company = _mapper.Map<Company>(item);
+			if (!ModelState.IsValid)
+				return Ok(false);
+
+			var company = _mapper.Map<Company>(item);
 
             if (company == null)
-                return NotFound();
+                return Ok(false);
 
-            await _dbContext.DeleteAsync(company);
-            return Ok();
+            var result = await _companyRepository.DeleteAsync(company);
+
+            return Ok(result);
         }
 
-        [HttpGet("GetByID")]
-        public async Task<IActionResult> GetByID(int id)
+        [HttpGet("GetComponyByID"),
+		ProducesResponseType(typeof(Company),
+		StatusCodes.Status200OK)]
+        public async Task<ActionResult<Company>> GetCompanyByIDAsync(int id)
         {
-            var company = await _dbContext.GetByIDAsync(id);
-
-            if (company == null)
-                return NotFound();
+            var company = await _companyRepository.GetByIDAsync(id);
 
             return Ok(company);
         }

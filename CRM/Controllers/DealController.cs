@@ -1,95 +1,104 @@
 ﻿using AutoMapper;
-using CRM.Data;
 using CRM.Model.DTO;
 using CRM.Model.Entities;
-using CRM.Services.Interfaces;
 using CRM.Services.Repositories;
+using CRM.Services.Repositories.Implementation;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace CRM.Controllers
 {
-    [Route("api/deal")]
+	[Route("api/[controller]")]
     public class DealController : Controller
     {
-        private readonly IDealRepository _dbContext;
+        private readonly IDealRepository _dealRepository;
         private readonly IMapper _mapper;
 
-        public DealController(IDealRepository dbContext,
+        public DealController(IDealRepository dealRepository,
             IMapper mapper)
         {
-            _dbContext = dbContext;
+            _dealRepository = dealRepository;
             _mapper = mapper;
         }
 
-        [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody] DealCreateDto item)
+		[HttpPost("СreateDeal"),
+		ProducesResponseType(typeof(int),
+		StatusCodes.Status200OK)]
+		public async Task<ActionResult<int>> CreateDealAsync([FromBody] DealCreateDto item)
+		{
+			if (!ModelState.IsValid)
+				return Ok(0);
+
+			var contact = _mapper.Map<Deal>(item);
+			if (contact == null)
+				return Ok(0);
+
+			var result = await _dealRepository.CreateAsync(contact);
+
+			return Ok(result);
+		}
+
+		[HttpGet("GetAllDeals"),
+		ProducesResponseType(typeof(List<Deal>),
+		StatusCodes.Status200OK)]
+		public async Task<ActionResult<List<Deal>>> GetAllDealAsync()
+		{
+			var result = await _dealRepository.GetAllAsync();
+
+			return Ok(result);
+		}
+
+		[HttpPut("UpdateDeal"),
+		ProducesResponseType(typeof(bool),
+		StatusCodes.Status200OK)]
+		public async Task<ActionResult<bool>> UpdateDealAsync([FromBody] DealUpdateDto item)
+		{
+			if (!ModelState.IsValid)
+				return Ok(false);
+
+			var contact = _mapper.Map<Deal>(item);
+
+			if (contact == null)
+				return Ok(false);
+
+			var result = await _dealRepository.UpdateAsync(contact);
+
+			return Ok(result);
+		}
+
+		[HttpDelete("DeleteDeal"),
+		ProducesResponseType(typeof(bool),
+		StatusCodes.Status200OK)]
+		public async Task<ActionResult<bool>> DeleteDealAsync([FromBody] DealDeleteDto item)
+		{
+			if (!ModelState.IsValid)
+				return Ok(false);
+
+			var contact = _mapper.Map<Deal>(item);
+
+			if (contact == null)
+				return Ok(false);
+
+			var result = await _dealRepository.DeleteAsync(contact);
+
+			return Ok(result);
+		}
+
+		[HttpGet("GetDealByID"),
+		ProducesResponseType(typeof(Deal),
+		StatusCodes.Status200OK)]
+		public async Task<ActionResult<Deal>> GetDealByIDAsync(int id)
+		{
+			var contact = await _dealRepository.GetByIDAsync(id);
+
+			return Ok(contact);
+		}
+
+        [HttpGet("GetDealByIDManager"),
+		ProducesResponseType(typeof(List<Deal>),
+		StatusCodes.Status200OK)]
+        public async Task<ActionResult<List<Deal>>> GetAllDealsByIDManagerAsync(string id)
         {
-            var deal = _mapper.Map<Deal>(item);
-
-            if (deal == null)
-                return NotFound();
-
-            var company = _mapper.Map<Company>(item.Company);
-
-            deal.Company = company;
-
-            await _dbContext.CreateAsync(deal);
-            return Ok();
-        }
-
-        [HttpPut("Update")]
-        public async Task<IActionResult> Update([FromBody] DealUpdateDto item)
-        {
-            var deal = _mapper.Map<Deal>(item);
-
-            if (deal == null)
-                return NotFound();
-
-            var company = _mapper.Map<Company>(item.Company);
-
-            deal.Company = company;
-
-            await _dbContext.UpdateAsync(deal);
-            return Ok();
-        }
-
-        [HttpDelete("Delete")]
-        public async Task<IActionResult> Delete([FromBody] DealDeleteDto item)
-        {
-            var deal = _mapper.Map<Deal>(item);
-
-            if (deal == null)
-                return NotFound();
-
-            await _dbContext.CreateAsync(deal);
-            return Ok();
-        }
-
-        [HttpGet("GetAll")]
-        public async Task<IActionResult> GetAll()
-        {
-            return Ok(await _dbContext.GetAllAsync());
-        }
-
-        [HttpGet("GetByID")]
-        public async Task<IActionResult> GetByID(int id)
-        {
-            var deal = await _dbContext.GetByIdAsync(id);
-
-            if (deal == null)
-                return NotFound();
-
-            return Ok(deal);
-        }
-
-        [HttpGet("GetByIDManager")]
-        public async Task<IActionResult> GetAllByIDManagerAsync(string id)
-        {
-            var deal = await _dbContext.GetAllByIdManagerAsync(id);
-
-            if (deal == null)
-                return NotFound();
+            var deal = await _dealRepository.GetAllByIdManagerAsync(id);
 
             return Ok(deal);
         }

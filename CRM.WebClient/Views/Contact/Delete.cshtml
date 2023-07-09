@@ -1,0 +1,33 @@
+﻿@model CRM.CrmApi.Client.ContactDeleteDto
+@{
+    Layout = "~/Views/Workflow/_LayoutWorkflow.cshtml";
+    ViewBag.Title = "Удаление контакта";
+}
+<div class="container d-flex align-items-center flex-column mt-5" style="color: white;">
+    <h1>Удалить контакт</h1>
+
+    <div >
+        <h4>Действительно удалить данный контакт?</h4>
+        <hr />
+        <dl class="row justify-content-center">
+            <dt class="col-sm-6">
+                @Html.DisplayNameFor(model => model.ContactId)
+            </dt>
+            <dd class="col-sm-6">
+                @Html.DisplayFor(model => model.ContactId)
+            </dd>
+        </dl>
+    </div>
+
+    <form asp-action="Delete" method="post">
+        <input asp-for="@Model.ContactId" hidden />
+        <button type="submit" class="btn btn-danger">Delete</button>
+    </form>
+
+    <hr />
+
+    <div>
+        <a asp-action="Index">Назад</a>
+    </div>
+</div>
+

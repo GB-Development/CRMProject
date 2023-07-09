@@ -1,0 +1,55 @@
+html {
+    font-size: 14px;
+}
+    footer {
+    background: rgba(238, 238, 238, 0.1);
+}
+nav{
+    background: #EEEEEE;
+}
+
+.container-fluid a {
+    color: rgba(0, 0, 0, 0.7);
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    font-family: 'Jost', sans-serif;
+    margin-bottom: 60px;
+    background: linear-gradient(to bottom, rgba(15, 12, 41, 1), rgba(48, 43, 99, 1), rgba(36, 36, 62, 1));
+}
+
+/*
+Пурпурная кнопка
+*/
+.btn-purple {
+    background-color: #573B8A;
+    color: #ffffff;
+    border-color: #573B8A;
+}
+.btn-purple:hover, .btn-purple:focus {
+    background-color: #655386;
+    color: #ffffff;
+}
+.btn-purple:active {
+    background-color: #655386;
+    color: #ffffff;
+}
+
+.navbar-nav li a:hover {
+    text-decoration: underline;
+}

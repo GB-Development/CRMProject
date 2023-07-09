@@ -10,12 +10,14 @@ namespace CRMIdentity.Pages.Logout
     public class LoggedOut : PageModel
     {
         private readonly IIdentityServerInteractionService _interactionService;
+        private readonly ILogger<LoggedOut> _logger;
 
         public LoggedOutViewModel View { get; set; }
 
-        public LoggedOut(IIdentityServerInteractionService interactionService)
+        public LoggedOut(IIdentityServerInteractionService interactionService, ILogger<LoggedOut> logger)
         {
             _interactionService = interactionService;
+            _logger = logger;
         }
 
         public async Task<IActionResult> OnGet(string logoutId)
@@ -32,6 +34,18 @@ namespace CRMIdentity.Pages.Logout
             };
 
             await Task.Delay(1000);
+
+            if (string.IsNullOrEmpty(logout?.PostLogoutRedirectUri) == false)
+            {
+                try
+                {
+                    return Redirect($"https://{new Uri(logout?.PostLogoutRedirectUri).Authority}");
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError($"Logout redirect url create error. Message: {ex.Message}");
+                }
+            }
 
             return RedirectToPage("/Account/Login/Index");
 
