@@ -54,6 +54,7 @@ namespace CRMUserManagementService.Controllers
             await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("userName", user.UserName));
             await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("name", user.Name));
             await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("email", user.Email));
+            await _userManager.AddClaimAsync(user, new System.Security.Claims.Claim("userId", user.Id));
             await _userManager.AddToRoleAsync(user, Roles.User);
 
             return Ok(new AccountRegisterResponseDto(user));

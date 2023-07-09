@@ -1,0 +1,46 @@
+﻿@model CRM.CrmApi.Client.ContactCreateDto
+@{
+    Layout = "~/Views/Workflow/_LayoutWorkflow.cshtml";
+    ViewBag.Title = "Создать контакт";
+}
+<div class="container d-flex align-items-center flex-column mt-5" style="color: white;">
+    <h1>Создать контакт</h1>
+
+    <hr />
+
+	<form asp-action="Create" method="post">
+		<div class="text-danger" asp-validation-summary="ModelOnly"></div>
+
+		<div class="form-group row m-3">
+			<input asp-for="FullName" id="fullName" class="fadeIn second form-control" placeholder="ФИО контакта" autofocus />
+			<span asp-validation-for="FullName" class="text-danger"></span>
+		</div>
+
+		<div class="form-group row m-3">
+			<input asp-for="PhoneNumber" id="phoneNumber" class="fadeIn second form-control" placeholder="Телефон контакта" autofocus />
+			<span asp-validation-for="PhoneNumber" class="text-danger"></span>
+		</div>
+
+		<div class="form-group row m-3">
+			<input asp-for="Email" id="email" class="fadeIn second form-control" placeholder="Електронная почта" />
+			<span asp-validation-for="Email" class="text-danger"></span>
+		</div>
+
+		<div class="form-group row m-3">
+			<input asp-for="Address" id="address" class="fadeIn second form-control" placeholder="Адрес контакта" />
+			<span asp-validation-for="Address" class="text-danger"></span>
+		</div>
+
+		<input asp-for="CompanyId" id="companyId" hidden />
+
+		<div class="d-flex justify-content-center">
+			<button class="btn mt-5 btn-success " type="submit">Добавить</button>
+		</div>
+	</form>
+
+    <hr />
+
+    <div>
+        <a class="btn btn-outline-info" asp-action="Index">Назад</a>
+    </div>
+</div>
