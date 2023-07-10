@@ -22,7 +22,7 @@ namespace CRM.WebClient
             })
                 .AddCookie("Cookies", options =>
                 {
-                    options.ExpireTimeSpan = new TimeSpan(0,0,10);
+                    options.ExpireTimeSpan = new TimeSpan(0,0,60);
                 })
                 .AddOpenIdConnect("oidc", options =>
                 {

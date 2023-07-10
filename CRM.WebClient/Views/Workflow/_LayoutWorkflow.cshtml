@@ -70,7 +70,7 @@
                                 <li><a class="dropdown-item" href="#">Profile</a></li>
                                 @if(User.Claims.FirstOrDefault(x => x.Value.Contains("admin")) is not null)
                                 {
-                                    <li><a class="dropdown-item" href="#">Add new User</a></li>
+                                    <li><a class="dropdown-item" asp-controller="Home" asp-action="Registry">Add new User</a></li>
                                 }
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item" asp-area="" asp-controller="Home" asp-action="Logout">Log out</a></li>
